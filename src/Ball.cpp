@@ -40,6 +40,9 @@ void Ball::renderCircle()
     float pixelsToMeters{30};
     DrawCircle(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters,
                m_radius, m_color);
+    DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius - 1, BLACK);
+    DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius, BLACK);
+    DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius + 1, BLACK);
 }
 
 b2BodyId Ball::getBallId()
@@ -63,8 +66,6 @@ void Ball::testStopTime()
    }
 
 
-    std::cout << previousVelocity.x << ", " << previousVelocity.y << "\n";
-
     if (IsKeyDown(KEY_W))
     {
         b2Body_SetLinearVelocity(m_ballId, b2Vec2(0.0f, 0.0f ));
@@ -73,5 +74,20 @@ void Ball::testStopTime()
     if (IsKeyDown(KEY_S))
     {
         b2Body_SetLinearVelocity(m_ballId, previousVelocity);
+    }
+}
+
+void Ball::setPos(Vector2 newPos)
+{
+    m_pos = newPos;
+}
+
+void Ball::keepMoving()
+{
+    b2Vec2 velocity = b2Body_GetLinearVelocity(m_ballId);
+
+    if (velocity.x == 0 || velocity.y == 0)
+    {
+        b2Body_SetLinearVelocity(m_ballId, b2Vec2(Random::get(1, 100), Random::get(1, 100)));
     }
 }

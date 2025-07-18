@@ -8,10 +8,12 @@
 
 #include "Box.h"
 #include "Ball.h"
+#include "spear.h"
 
 class Box;
 class Ball;
 class Item;
+class Spear;
 
 class GameEngine {
 private:
@@ -19,7 +21,9 @@ private:
 private:
     Box box;
     Ball ball;
+    Ball ball2;
     Item testItem;
+    Spear spear;
 public:
     void startUp();
     void update();

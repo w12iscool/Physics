@@ -12,7 +12,11 @@ add_executable(Physics src/main.cpp
         src/Ball.cpp
         src/Ball.h
         src/Item.cpp
-        src/Item.h)
+        src/Item.h
+        src/spear.cpp
+        src/spear.h
+        src/Random.h
+)
 
 find_package(box2d REQUIRED)
 target_link_libraries(Physics PRIVATE box2d::box2d)

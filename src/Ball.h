@@ -7,6 +7,7 @@
 #include "box2d/box2d.h"
 #include "Constants.h"
 #include "Item.h"
+#include "Random.h"
 
 class Item;
 class Ball {
@@ -25,6 +26,8 @@ public:
     void renderCircle();
     b2BodyId getBallId();
     void testStopTime();
+    void setPos(Vector2 newPos);
+    void keepMoving();
 };
 
 
