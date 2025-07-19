@@ -68,13 +68,22 @@ void Ball::testStopTime()
 
     if (IsKeyDown(KEY_W))
     {
+        m_isFrozen = true;
         b2Body_SetLinearVelocity(m_ballId, b2Vec2(0.0f, 0.0f ));
     }
-
-    if (IsKeyDown(KEY_S))
+    if (IsKeyDown(KEY_B))
     {
-        b2Body_SetLinearVelocity(m_ballId, previousVelocity);
+        m_isFrozen = false;
     }
+
+    if (!m_isFrozen)
+    {
+        if (IsKeyDown(KEY_S))
+        {
+            b2Body_SetLinearVelocity(m_ballId, b2Vec2(Random::get(-50, 50), Random::get(-50, 50) ));
+        }
+    }
+
 }
 
 void Ball::setPos(Vector2 newPos)
@@ -86,8 +95,11 @@ void Ball::keepMoving()
 {
     b2Vec2 velocity = b2Body_GetLinearVelocity(m_ballId);
 
-    if (velocity.x == 0 || velocity.y == 0)
+    if (!m_isFrozen)
     {
-        b2Body_SetLinearVelocity(m_ballId, b2Vec2(Random::get(1, 100), Random::get(1, 100)));
+        if (velocity.x == 0 || velocity.y == 0)
+        {
+            b2Body_SetLinearVelocity(m_ballId, b2Vec2(Random::get(-50, 50), Random::get(-50, 50)));
+        }
     }
 }

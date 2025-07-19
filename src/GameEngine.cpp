@@ -20,6 +20,10 @@ void GameEngine::startUp()
 
 float timeStep = 1.0f / 60.0f;
 int subStepCount  = 4;
+
+// Timer stuff
+Timer debounceTimer{ 0 };
+float debounceLifeTime{ 1 };
 void GameEngine::update()
 {
     b2World_Step(m_worldId, timeStep, subStepCount);
@@ -30,6 +34,8 @@ void GameEngine::update()
 
     ball.keepMoving();
     ball2.keepMoving();
+
+    spear.handleCollision(ball2, debounceTimer, debounceLifeTime);
 }
 
 void GameEngine::render()
@@ -40,7 +46,7 @@ void GameEngine::render()
     ball2.renderCircle();
     // testItem.render();
     spear.render();
-    spear.handleCollision(ball2 );
+
 }
 
 void GameEngine::shutDown()
