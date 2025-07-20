@@ -103,3 +103,14 @@ void Ball::keepMoving()
         }
     }
 }
+
+
+void Ball::setFrozen(bool frozen)
+{
+    m_isFrozen = frozen;
+}
+
+void Ball::setColor(Color newColor)
+{
+    m_color = newColor;
+}

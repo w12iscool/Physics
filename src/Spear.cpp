@@ -28,9 +28,10 @@ void Spear::render()
     DrawRectanglePro(m_headRect, Vector2(m_width / 2, m_height / 2), m_drawAngle, RED);
 }
 
-void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime)
+void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime)
 {
     UpdateTimer(&timer);
+    UpdateTimer(&freezeTimer);
     Vector2 circleCenter = Vector2((b2Body_GetPosition(ball.getBallId()).x * 30), (b2Body_GetPosition(ball.getBallId()).y * 30));
     float physicalAngleRad = m_angle + (std::numbers::pi / 2.0f);
     if (!m_debounce)
@@ -39,6 +40,7 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime)
         {
             m_debounce = true;
             StartTimer(&timer, lifeTime);
+            StartTimer(&freezeTimer, freezeLifeTime);
             m_height += 1;
             std::cout << "hit!";
         }
@@ -46,5 +48,30 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime)
     if (TimerDone(&timer))
     {
         m_debounce = false;
+    }
+
+    if (TimerDone(&freezeTimer))
+    {
+        m_orbitSpeed = m_normalOrbitSpeed;
+        ball.setColor(RED);
+        ball.setFrozen(false);
+        ball2.setFrozen(false);
+        // 50 is the normal gravity
+        b2Body_SetGravityScale(ball.getBallId(), 1.0f);
+        b2Body_SetGravityScale(ball2.getBallId(), 1.0f);
+    }
+    else
+    {
+        m_orbitSpeed = 0.0f;
+        ball.setColor(RAYWHITE);
+        ball.setFrozen(true);
+        ball2.setFrozen(true);
+        b2Body_EnableSleep(ball.getBallId(), true);
+        b2Body_EnableSleep(ball2.getBallId(), true);
+        b2Body_SetLinearVelocity(ball.getBallId(), b2Vec2(0.0f, 0.0f));
+        b2Body_SetLinearVelocity(ball2.getBallId(), b2Vec2(0.0f, 0.0f));
+        b2Body_SetGravityScale(ball.getBallId(), 0.0f);
+        b2Body_SetGravityScale(ball2.getBallId(), 0.0f);
+
     }
 }

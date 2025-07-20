@@ -9,6 +9,7 @@
 #include <iostream>
 #include <raylib.h>
 #include "RaylibTimer.h"
+#include "box2d/box2d.h"
 
 class Item;
 class Ball;
@@ -19,6 +20,7 @@ private:
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
     float m_orbitSpeed{ 5.0f };
+    float m_normalOrbitSpeed{ 5.0f };
 
     Rectangle m_itemRect;
     Rectangle m_headRect;
@@ -29,6 +31,6 @@ private:
 public:
     void rotate(Ball& ball) override;
     void render() override;
-    void handleCollision(Ball& ball, Timer& timer, float& lifeTime);
+    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime);
 };
 

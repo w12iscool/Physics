@@ -17,6 +17,7 @@ private:
     Vector2 m_pos = Vector2((SCREEN_WIDTH - m_radius) / 2, (SCREEN_HEIGHT - m_radius) / 2);
     Color m_color{ RED };
     bool m_isFrozen{ false };
+    bool m_freezeDebounce{ false };
 private:
     b2BodyId m_ballId = { 0 };
     b2Vec2 previousVelocity;
@@ -30,6 +31,8 @@ public:
     void testStopTime();
     void setPos(Vector2 newPos);
     void keepMoving();
+    void setFrozen(bool frozen);
+    void setColor(Color newColor);
 };
 
 
