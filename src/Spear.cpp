@@ -17,6 +17,7 @@ void Spear::rotate(Ball& ball)
     if (m_angle > tau)
         m_angle -= tau;
 
+
     m_itemRect = {origin.x + m_drawRadius * cos(m_angle), origin.y + m_drawRadius * sin(m_angle), m_width, m_height};
     m_headRect = {m_itemRect.x, m_itemRect.y, m_width, 20};
     m_drawAngle = RAD2DEG * (m_angle + std::numbers::pi / 2.0f);
@@ -32,18 +33,33 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
-    Vector2 circleCenter = Vector2((b2Body_GetPosition(ball.getBallId()).x * 30), (b2Body_GetPosition(ball.getBallId()).y * 30));
     float physicalAngleRad = m_angle + (std::numbers::pi / 2.0f);
-    if (!m_debounce)
+    Vector2 itemCenter = {m_itemRect.x, m_itemRect.y};
+    Vector2 headCenter = {m_headRect.x, m_headRect.y};
+
+    std::vector<Vector2> itemRectPoly = getRotatedRect(itemCenter, m_itemRect.width, m_itemRect.height, physicalAngleRad);
+    std::vector<Vector2> headRectPoly = getRotatedRect(headCenter, m_headRect.width, m_headRect.height, physicalAngleRad);
+
+    Vector2 circleCenter = Vector2(b2Body_GetPosition(ball.getBallId()).x * 30, b2Body_GetPosition(ball.getBallId()).y * 30);
+    float radius = ball.getRadius();
+
+    bool hit = satCircleVsPolygon(circleCenter, radius, itemRectPoly) || satCircleVsPolygon(circleCenter, radius, headRectPoly);
+
+    if (hit && !m_debounce)
     {
-        if (CheckCollisionCircleRotatedRec(ball, m_itemRect, physicalAngleRad) || CheckCollisionCircleRotatedRec(ball, m_headRect, physicalAngleRad))
-        {
-            m_debounce = true;
-            StartTimer(&timer, lifeTime);
-            StartTimer(&freezeTimer, freezeLifeTime);
-            m_height += 1;
-            std::cout << "hit!";
-        }
+        // if (CheckCollisionCircleRotatedRec(ball, m_itemRect, physicalAngleRad) || CheckCollisionCircleRotatedRec(ball, m_headRect, physicalAngleRad))
+        // {
+        //     m_debounce = true;
+        //     StartTimer(&timer, lifeTime);
+        //     StartTimer(&freezeTimer, freezeLifeTime);
+        //     m_height += 1;
+        //     std::cout << "hit!";
+        // }
+        m_debounce = true;
+        StartTimer(&timer, lifeTime);
+        StartTimer(&freezeTimer, freezeLifeTime);
+        m_height += 1;
+        std::cout << "hit!";
     }
     if (TimerDone(&timer))
     {
@@ -56,7 +72,6 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
         ball.setColor(RED);
         ball.setFrozen(false);
         ball2.setFrozen(false);
-        // 50 is the normal gravity
         b2Body_SetGravityScale(ball.getBallId(), 1.0f);
         b2Body_SetGravityScale(ball2.getBallId(), 1.0f);
     }

@@ -25,6 +25,13 @@ private:
     Rectangle m_itemRect;
     Rectangle m_headRect;
     float m_drawAngle;
+
+    struct Projection
+    {
+        float min;
+        float max;
+    };
+
     float m_drawRadius;
     bool m_debounce{ false };
 
