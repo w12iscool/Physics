@@ -42,7 +42,7 @@ private:
     std::unique_ptr<Texture2D> m_spearHeadTexture = std::make_unique<Texture2D>();
 
 public:
-    void rotate(Ball& ball) override;
+    void rotate(Ball& ball);
     void render() override;
     void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime);
     void initTextures();

@@ -32,7 +32,7 @@ public:
     float getHeight();
     Vector2 getPos();
 
-    virtual void rotate(Ball& ball);
+    virtual void rotate(Ball& ball, Rectangle& itemRect, float orbitSpeed, float angle, float drawAngle, float width, float height);
     virtual void render();
 
     Vector2 Normalize(Vector2 v);

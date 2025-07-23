@@ -25,7 +25,6 @@ void Spear::rotate(Ball& ball)
 
 void Spear::render()
 {
-    DrawRectanglePro(m_itemRect, Vector2(m_width / 2, m_height / 2), m_drawAngle, BLUE);
     DrawRectanglePro(m_headRect, Vector2(m_width / 2, m_height / 2), m_drawAngle, RED);
 
     Rectangle source = Rectangle(0, 0, (float)(*m_stickTexture).width, (float)(*m_stickTexture).height);
@@ -78,7 +77,7 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
         m_debounce = true;
         StartTimer(&timer, lifeTime);
         StartTimer(&freezeTimer, freezeLifeTime);
-        m_height += 1;
+        m_height += 5;
         ball.takeDamage(m_damage);
     }
     if (TimerDone(&timer))
