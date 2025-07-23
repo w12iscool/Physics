@@ -11,7 +11,7 @@ float Item::getWidth() const
     return m_width;
 }
 
-float Item::getHeight()
+float& Item::getHeight()
 {
     return m_height;
 }
@@ -23,18 +23,18 @@ Vector2 Item::getPos()
 
 inline float tau = 2 * (std::numbers::pi);
 
-void Item::rotate(Ball& ball, Rectangle& itemRect, float orbitSpeed, float angle, float drawAngle, float width, float height)
+void Item::rotate(Ball& ball, Rectangle& itemRect, float& orbitSpeed, float& angle, float& drawAngle, float& width, float& height, float& radiusOffset, float& direction)
 {
-    float increment = (tau / 360.0f) * orbitSpeed;
+    float increment = (tau / 360.0f) * orbitSpeed * direction;
     Vector2 origin = Vector2(b2Body_GetPosition(ball.getBallId()).x * 30, b2Body_GetPosition(ball.getBallId()).y * 30);
-    float radius = ball.getRadius() + 40;
+    float radius = ball.getRadius() + radiusOffset;
 
     angle += increment;
     if (angle > tau)
         angle -= tau;
 
     itemRect = {origin.x + radius * cos(angle), origin.y + radius * sin(angle), width, height};
-    drawAngle = RAD2DEG * (m_angle + std::numbers::pi / 2.0f);
+    drawAngle = RAD2DEG * (angle + std::numbers::pi / 2.0f);
 }
 
 
@@ -191,23 +191,6 @@ bool Item::satCircleVsPolygon(Vector2 circleCenter, float radius, const std::vec
     return true;
 }
 
-bool Item::CheckCollisionCircleRotatedRec(Ball& ball, Rectangle& rec, float recRocation)
-{
-    // Vector2 recCenter = {rec.x + rec.width / 2.0f, rec.y + rec.height / 2.0f};
-    // Vector2 ballCenter = {b2Body_GetPosition(ball.getBallId()).x * 30, b2Body_GetPosition(ball.getBallId()).y * 30};
-    // Vector2 vecToCircle =  Vector2Subtract(ballCenter, recCenter);
-    // Vector2 circlePos = Vector2Rotate(vecToCircle, -recRocation);
-    //
-    // float closestX = Clamp(circlePos.x, -rec.width / 2.0f, rec.width / 2.0f);
-    // float closestY = Clamp(circlePos.y, -rec.height / 2.0f, rec.height / 2.0f);
-    //
-    // Vector2 closestPoint = {closestX, closestY};
-    // float distance = Vector2Distance(circlePos, closestPoint);
-    //
-    // return distance < ball.getRadius();
-
-    
-}
 
 
 

@@ -134,3 +134,8 @@ void Ball::takeDamage(int damage)
 {
     m_health -= damage;
 }
+
+bool Ball::getFrozen()
+{
+    return m_isFrozen;
+}

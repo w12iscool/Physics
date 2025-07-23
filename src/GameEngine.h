@@ -9,12 +9,13 @@
 #include "Box.h"
 #include "Ball.h"
 #include "spear.h"
+#include "Sword.h"
 
 class Box;
 class Ball;
 class Item;
 class Spear;
-
+class Sword;
 class GameEngine {
 private:
     b2WorldId m_worldId = {0};
@@ -24,6 +25,7 @@ private:
     Ball ball2;
     Item testItem;
     Spear spear;
+    Sword sword;
 public:
     void startUp();
     void update();

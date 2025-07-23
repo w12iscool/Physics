@@ -17,30 +17,43 @@ void GameEngine::startUp()
     ball2.initBallBox2d(m_worldId);
 
     spear.initTextures();
+    sword.initTextures();
 }
 
 
 float timeStep = 1.0f / 60.0f;
 int subStepCount  = 4;
 
-// Timer stuff
-Timer debounceTimer{ 0 };
-float debounceLifeTime{ 1 };
+// Timer stuff for spear
+Timer debounceTimerSpear{ 0 };
+float debounceLifeTimeSpear{ 1 };
 
-Timer freezeTimer{ 0 };
-float freezeLifeTime{ 0.9 };
+Timer freezeTimerSpear{ 0 };
+float freezeLifeTimeSpear{ 0.9 };
+
+// Timer stuff for sword
+Timer debounceTimerSword{ 0 };
+float debounceLifeTimeSword{ 0.7 };
+
+Timer freezeTimerSword{ 0 };
+float freezeLifeTimeSword{ 0.6 };
+
+
 void GameEngine::update()
 {
     b2World_Step(m_worldId, timeStep, subStepCount);
     // testItem.rotate(ball);
-    spear.rotate(ball);
+    spear.rotate(ball, spear.returnItemRect(), spear.getOrbitSpeed(), spear.getAngle(), spear.getDrawAngle(), spear.getWidth(), spear.getHeight(), spear.getRadiusOffset(), spear.getDirection());
+    spear.rotateHead();
+    sword.rotate(ball2, sword.getRect(), sword.getOrbitSpeed(), sword.getAngle(), sword.getDrawAngle(), sword.getWidth(), sword.getHeight(), sword.getRadiusOffset(), sword.getDirection());
     ball.testStopTime();
     ball2.testStopTime();
 
     ball.keepMoving();
     ball2.keepMoving();
 
-    spear.handleCollision(ball2, debounceTimer, debounceLifeTime, ball, freezeTimer, freezeLifeTime);
+    spear.handleCollision(ball2, debounceTimerSpear, debounceLifeTimeSpear, ball, freezeTimerSpear, freezeLifeTimeSpear, sword.getOrbitSpeed(), sword.getRect(), sword.getNormalOrbitSpeed());
+    sword.handleCollision(ball, debounceTimerSword, debounceLifeTimeSword, ball2, freezeTimerSword, freezeLifeTimeSword, spear.getOrbitSpeed(), spear.returnItemRect(), spear.getNormalOrbitSpeed());
 }
 
 void GameEngine::render()
@@ -51,6 +64,7 @@ void GameEngine::render()
     ball2.renderCircle();
     // testItem.render();
     spear.render();
+    sword.render();
 
 }
 

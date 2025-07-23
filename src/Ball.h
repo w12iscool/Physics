@@ -36,6 +36,7 @@ public:
     void setFrozen(bool frozen);
     void setColor(Color newColor);
     void takeDamage(int damage);
+    bool getFrozen();
 };
 
 

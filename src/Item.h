@@ -29,10 +29,10 @@ private:
     };
 public:
     [[nodiscard]] float getWidth() const;
-    float getHeight();
+    virtual float& getHeight();
     Vector2 getPos();
 
-    virtual void rotate(Ball& ball, Rectangle& itemRect, float orbitSpeed, float angle, float drawAngle, float width, float height);
+    virtual void rotate(Ball& ball, Rectangle& itemRect, float& orbitSpeed, float& angle, float& drawAngle, float& width, float& height, float& radiusOffset, float& direction);
     virtual void render();
 
     Vector2 Normalize(Vector2 v);
@@ -47,7 +47,6 @@ public:
     bool satCollisions(const std::vector<Vector2>& polyA, const std::vector<Vector2>& polyB);
     bool satCircleVsPolygon(Vector2 circleCenter, float radius, const std::vector<Vector2>& poly);
 
-    bool CheckCollisionCircleRotatedRec(Ball& ball, Rectangle& rec, float recRocation);
 };
 
 

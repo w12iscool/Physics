@@ -6,21 +6,80 @@
 
 #include <vector>
 
-inline float tau = 2 * (std::numbers::pi);
-void Spear::rotate(Ball& ball)
+void Spear::initTextures()
 {
-    float increment = (tau / 360.0f) * m_orbitSpeed;
-    Vector2 origin = Vector2(b2Body_GetPosition(ball.getBallId()).x * 30, b2Body_GetPosition(ball.getBallId()).y * 30);
-    m_drawRadius = ball.getRadius() + 40;
+    (*m_stickTexture) = LoadTexture("./resources/stick.png");
+    (*m_spearHeadTexture) = LoadTexture("./resources/spearHead.png");
+}
 
-    m_angle += increment;
-    if (m_angle > tau)
-        m_angle -= tau;
+Rectangle& Spear::returnItemRect()
+{
+    return m_itemRect;
+}
 
+Rectangle& Spear::returnHeadRect()
+{
+    return m_headRect;
+}
 
-    m_itemRect = {origin.x + m_drawRadius * cos(m_angle), origin.y + m_drawRadius * sin(m_angle), m_width, m_height};
+float& Spear::getOrbitSpeed()
+{
+    return m_orbitSpeed;
+}
+
+float& Spear::getNormalOrbitSpeed()
+{
+    return m_normalOrbitSpeed;
+}
+
+float& Spear::getWidth()
+{
+    return m_width;
+}
+
+float& Spear::getHeight()
+{
+    return m_height;
+}
+
+float& Spear::getDrawAngle()
+{
+    return m_drawAngle;
+}
+
+float& Spear::getAngle()
+{
+    return m_angle;
+}
+
+float& Spear::getDirection()
+{
+    return m_direction;
+}
+
+float& Spear::getRadiusOffset()
+{
+    return m_radiusOffset;
+}
+
+float& Spear::getHeadWidth()
+{
+    return m_headWidth;
+}
+
+float& Spear::getHeadAngle()
+{
+    return m_headAngle;
+}
+
+float& Spear::getHeadDrawAngle()
+{
+    return m_headDrawAngle;
+}
+
+void Spear::rotateHead()
+{
     m_headRect = {m_itemRect.x, m_itemRect.y, m_width, 20};
-    m_drawAngle = RAD2DEG * (m_angle + std::numbers::pi / 2.0f);
 }
 
 void Spear::render()
@@ -56,21 +115,23 @@ void Spear::render()
 
 }
 
-void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime)
+void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float& otherNormalOrbitSpeed)
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
     float physicalAngleRad = m_angle + (std::numbers::pi / 2.0f);
     Vector2 itemCenter = {m_itemRect.x, m_itemRect.y};
     Vector2 headCenter = {m_headRect.x, m_headRect.y};
+    Vector2 secondItemCenter = {otherRect.x, otherRect.y};
 
     std::vector<Vector2> itemRectPoly = getRotatedRect(itemCenter, m_itemRect.width, m_itemRect.height, physicalAngleRad);
     std::vector<Vector2> headRectPoly = getRotatedRect(headCenter, m_headRect.width, m_headRect.height, physicalAngleRad);
+    std::vector<Vector2> otherItemPoly = getRotatedRect(secondItemCenter, otherRect.width, otherRect.height, physicalAngleRad);
 
     Vector2 circleCenter = Vector2(b2Body_GetPosition(ball.getBallId()).x * 30, b2Body_GetPosition(ball.getBallId()).y * 30);
     float radius = ball.getRadius();
 
-    bool hit = satCircleVsPolygon(circleCenter, radius, itemRectPoly) || satCircleVsPolygon(circleCenter, radius, headRectPoly);
+    bool hit = satCircleVsPolygon(circleCenter, radius, itemRectPoly);
 
     if (hit && !m_debounce)
     {
@@ -78,8 +139,9 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
         StartTimer(&timer, lifeTime);
         StartTimer(&freezeTimer, freezeLifeTime);
         m_height += 5;
-        ball.takeDamage(m_damage);
     }
+
+
     if (TimerDone(&timer))
     {
         m_debounce = false;
@@ -88,20 +150,20 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
     if (TimerDone(&freezeTimer))
     {
         m_orbitSpeed = m_normalOrbitSpeed;
+        otherOrbitSpeed = otherNormalOrbitSpeed;
         ball.setColor(RED);
         ball.setFrozen(false);
         ball2.setFrozen(false);
         b2Body_SetGravityScale(ball.getBallId(), 1.0f);
-        b2Body_SetGravityScale(ball2.getBallId(), 1.0f);
+        b2Body_SetGravityScale(ball.getBallId(), 1.0f);
     }
     else
     {
-        m_orbitSpeed = 0.0f;
+        m_orbitSpeed = 0;
+        otherOrbitSpeed = 0;
         ball.setColor(RAYWHITE);
         ball.setFrozen(true);
         ball2.setFrozen(true);
-        b2Body_EnableSleep(ball.getBallId(), true);
-        b2Body_EnableSleep(ball2.getBallId(), true);
         b2Body_SetLinearVelocity(ball.getBallId(), b2Vec2(0.0f, 0.0f));
         b2Body_SetLinearVelocity(ball2.getBallId(), b2Vec2(0.0f, 0.0f));
         b2Body_SetGravityScale(ball.getBallId(), 0.0f);
@@ -110,8 +172,4 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
     }
 }
 
-void Spear::initTextures()
-{
-    (*m_stickTexture) = LoadTexture("./resources/stick.png");
-    (*m_spearHeadTexture) = LoadTexture("./resources/spearHead.png");
-}
+
