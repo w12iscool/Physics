@@ -15,6 +15,8 @@ void GameEngine::startUp()
     ball.initBallBox2d(m_worldId);
     ball2.setPos(Vector2(400, 400));
     ball2.initBallBox2d(m_worldId);
+
+    spear.initTextures();
 }
 
 

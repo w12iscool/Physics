@@ -9,6 +9,7 @@
 #include "Item.h"
 #include "Random.h"
 #include "RaylibTimer.h"
+#include <string>
 
 class Item;
 class Ball {
@@ -18,6 +19,7 @@ private:
     Color m_color{ RED };
     bool m_isFrozen{ false };
     bool m_freezeDebounce{ false };
+    int m_health{ 100 };
 private:
     b2BodyId m_ballId = { 0 };
     b2Vec2 previousVelocity;
@@ -33,6 +35,7 @@ public:
     void keepMoving();
     void setFrozen(bool frozen);
     void setColor(Color newColor);
+    void takeDamage(int damage);
 };
 
 

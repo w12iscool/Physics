@@ -40,9 +40,24 @@ void Ball::renderCircle()
     float pixelsToMeters{30};
     DrawCircle(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters,
                m_radius, m_color);
+
+    // Black outline (maybe not very efficient)
     DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius - 1, BLACK);
     DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius, BLACK);
     DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius + 1, BLACK);
+
+    std::string temp = std::to_string(m_health);
+    const char* healthText = temp.c_str();
+    int fontSize = 30;
+    int textWidth = MeasureText(healthText, fontSize);
+
+    DrawText(
+        healthText,
+        b2Body_GetPosition(m_ballId).x * pixelsToMeters - textWidth / 2,
+        b2Body_GetPosition(m_ballId).y * pixelsToMeters - fontSize / 2,
+        fontSize,
+        BLACK
+    );
 }
 
 b2BodyId Ball::getBallId()
@@ -113,4 +128,9 @@ void Ball::setFrozen(bool frozen)
 void Ball::setColor(Color newColor)
 {
     m_color = newColor;
+}
+
+void Ball::takeDamage(int damage)
+{
+    m_health -= damage;
 }

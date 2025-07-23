@@ -27,6 +27,34 @@ void Spear::render()
 {
     DrawRectanglePro(m_itemRect, Vector2(m_width / 2, m_height / 2), m_drawAngle, BLUE);
     DrawRectanglePro(m_headRect, Vector2(m_width / 2, m_height / 2), m_drawAngle, RED);
+
+    Rectangle source = Rectangle(0, 0, (float)(*m_stickTexture).width, (float)(*m_stickTexture).height);
+    Rectangle dest = Rectangle(m_itemRect.x, m_itemRect.y, m_width, m_height);
+
+    Rectangle sourceHead = Rectangle(0, 0, (float)(*m_spearHeadTexture).width, (float)(*m_spearHeadTexture).height);
+    Rectangle destHead = Rectangle(m_headRect.x, m_headRect.y, 45, 50);
+
+    DrawTexturePro((*m_stickTexture), source, dest, Vector2(m_itemRect.width / 2, m_itemRect.height / 2), m_drawAngle, WHITE);
+
+    Vector2 offsetDir = Vector2{ cos(m_angle), sin(m_angle) };
+
+    float offset = m_height / 2.0f;
+
+    Rectangle spearHeadRect = m_headRect;
+    spearHeadRect.x += offsetDir.x * offset;
+    spearHeadRect.y += offsetDir.y * offset;
+    spearHeadRect.width = 50;
+    spearHeadRect.height = 50;
+
+    DrawTexturePro(
+        *m_spearHeadTexture,
+        sourceHead,
+        spearHeadRect,
+        Vector2(spearHeadRect.width / 2, spearHeadRect.height / 2),
+        m_drawAngle,
+        WHITE
+    );
+
 }
 
 void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime)
@@ -47,19 +75,11 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
 
     if (hit && !m_debounce)
     {
-        // if (CheckCollisionCircleRotatedRec(ball, m_itemRect, physicalAngleRad) || CheckCollisionCircleRotatedRec(ball, m_headRect, physicalAngleRad))
-        // {
-        //     m_debounce = true;
-        //     StartTimer(&timer, lifeTime);
-        //     StartTimer(&freezeTimer, freezeLifeTime);
-        //     m_height += 1;
-        //     std::cout << "hit!";
-        // }
         m_debounce = true;
         StartTimer(&timer, lifeTime);
         StartTimer(&freezeTimer, freezeLifeTime);
         m_height += 1;
-        std::cout << "hit!";
+        ball.takeDamage(m_damage);
     }
     if (TimerDone(&timer))
     {
@@ -89,4 +109,10 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
         b2Body_SetGravityScale(ball2.getBallId(), 0.0f);
 
     }
+}
+
+void Spear::initTextures()
+{
+    (*m_stickTexture) = LoadTexture("./resources/stick.png");
+    (*m_spearHeadTexture) = LoadTexture("./resources/spearHead.png");
 }

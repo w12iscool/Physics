@@ -11,6 +11,8 @@
 #include "RaylibTimer.h"
 #include "box2d/box2d.h"
 
+#include <memory>
+
 class Item;
 class Ball;
 class Spear : public Item {
@@ -21,6 +23,7 @@ private:
     float m_angle{ 0.0f };
     float m_orbitSpeed{ 5.0f };
     float m_normalOrbitSpeed{ 5.0f };
+    int m_damage{ 5 };
 
     Rectangle m_itemRect;
     Rectangle m_headRect;
@@ -35,9 +38,13 @@ private:
     float m_drawRadius;
     bool m_debounce{ false };
 
+    std::unique_ptr<Texture2D> m_stickTexture = std::make_unique<Texture2D>();
+    std::unique_ptr<Texture2D> m_spearHeadTexture = std::make_unique<Texture2D>();
+
 public:
     void rotate(Ball& ball) override;
     void render() override;
     void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime);
+    void initTextures();
 };
 
