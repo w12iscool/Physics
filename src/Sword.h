@@ -38,8 +38,10 @@ private:
     float m_drawRadius;
     bool m_debounce;
 
-    float m_direction = 1;
+    bool m_isFrozen = false;
 
+
+    float m_direction = 1;
     std::unique_ptr<Texture2D> m_swordTexture = std::make_unique<Texture2D>();
 public:
     Rectangle& getRect();
@@ -54,8 +56,10 @@ public:
 
     void render() override;
     void initTextures();
-    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float& otherNormalOrbitSpeed);
+    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen);
     void freezeSword();
+
+    bool& getFrozen();
 };
 
 

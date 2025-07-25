@@ -63,7 +63,7 @@ void Sword::initTextures()
 }
 
 void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
-    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float& otherNormalOrbitSpeed)
+    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherIsFrozen, bool& gameFrozen)
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
@@ -105,29 +105,20 @@ void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
 
     if (TimerDone(&freezeTimer))
     {
-        m_orbitSpeed = m_normalOrbitSpeed;
-        otherOrbitSpeed = otherNormalOrbitSpeed;
-        ball.setColor(RED);
-        ball.setFrozen(false);
-        ball2.setFrozen(false);
-        b2Body_SetGravityScale(ball.getBallId(), 1.0f);
-        b2Body_SetGravityScale(ball.getBallId(), 1.0f);
+        gameFrozen = false;
     }
     else
     {
-        m_orbitSpeed = 0.0f;
-        otherOrbitSpeed = 0.0f;
-        ball.setColor(RAYWHITE);
-        ball.setFrozen(true);
-        ball2.setFrozen(true);
-        b2Body_SetLinearVelocity(ball.getBallId(), b2Vec2(0.0f, 0.0f));
-        b2Body_SetLinearVelocity(ball2.getBallId(), b2Vec2(0.0f, 0.0f));
-        b2Body_SetGravityScale(ball.getBallId(), 0.0f);
-        b2Body_SetGravityScale(ball2.getBallId(), 0.0f);
+        gameFrozen = true;
     }
 }
 
 void Sword::freezeSword()
 {
     m_orbitSpeed = 0.0f;
+}
+
+bool& Sword::getFrozen()
+{
+    return m_isFrozen;
 }

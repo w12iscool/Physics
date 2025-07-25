@@ -139,3 +139,20 @@ bool Ball::getFrozen()
 {
     return m_isFrozen;
 }
+
+void Ball::handleFreezing(float& orbitSpeed, float normalOrbitSpeed, Ball& otherBall, bool& gameFrozen)
+{
+    if (m_isFrozen)
+    {
+        m_color = RAYWHITE;
+        orbitSpeed = 0;
+        b2Body_SetLinearVelocity(m_ballId, b2Vec2(0.0f, 0.0f ));
+        b2Body_SetGravityScale(m_ballId, 0.0f);
+    }
+    else
+    {
+        m_color = RED;
+        orbitSpeed = normalOrbitSpeed;
+        b2Body_SetGravityScale(m_ballId, 1.0f);
+    }
+}

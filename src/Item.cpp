@@ -23,8 +23,9 @@ Vector2 Item::getPos()
 
 inline float tau = 2 * (std::numbers::pi);
 
-void Item::rotate(Ball& ball, Rectangle& itemRect, float& orbitSpeed, float& angle, float& drawAngle, float& width, float& height, float& radiusOffset, float& direction)
+void Item::rotate(Ball& ball, Rectangle& itemRect, float& orbitSpeed, float& angle, float& drawAngle, float& width, float& height, float& radiusOffset, float& direction, bool& isFrozen)
 {
+    if (isFrozen) return;
     float increment = (tau / 360.0f) * orbitSpeed * direction;
     Vector2 origin = Vector2(b2Body_GetPosition(ball.getBallId()).x * 30, b2Body_GetPosition(ball.getBallId()).y * 30);
     float radius = ball.getRadius() + radiusOffset;

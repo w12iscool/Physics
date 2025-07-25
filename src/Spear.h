@@ -23,7 +23,7 @@ private:
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
     float m_headAngle{ 0.0 };
-    float m_orbitSpeed{ 0.0f };
+    float m_orbitSpeed{ 5.0f };
     float m_normalOrbitSpeed{ 5.0f };
     int m_damage{ 1 };
 
@@ -64,8 +64,11 @@ public:
     float& getHeadDrawAngle();
 
     void render() override;
-    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float& otherNormalOrbitSpeed);
+    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
+    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen);
     void initTextures();
     void rotateHead();
+
+    bool& getIsFrozen();
 };
 

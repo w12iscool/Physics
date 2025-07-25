@@ -20,6 +20,7 @@ class GameEngine {
 private:
     b2WorldId m_worldId = {0};
 private:
+    bool m_gameFrozen = false;
     Box box;
     Ball ball;
     Ball ball2;

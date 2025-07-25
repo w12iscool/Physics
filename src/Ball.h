@@ -20,6 +20,7 @@ private:
     bool m_isFrozen{ false };
     bool m_freezeDebounce{ false };
     int m_health{ 100 };
+
 private:
     b2BodyId m_ballId = { 0 };
     b2Vec2 previousVelocity;
@@ -37,6 +38,8 @@ public:
     void setColor(Color newColor);
     void takeDamage(int damage);
     bool getFrozen();
+
+    void handleFreezing(float& orbitSpeed, float normalOrbitSpeed, Ball& ball, bool& gameFrozen);
 };
 
 

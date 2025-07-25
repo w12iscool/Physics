@@ -82,6 +82,11 @@ void Spear::rotateHead()
     m_headRect = {m_itemRect.x, m_itemRect.y, m_width, 20};
 }
 
+bool& Spear::getIsFrozen()
+{
+    return m_isFrozen;
+}
+
 void Spear::render()
 {
     DrawRectanglePro(m_headRect, Vector2(m_width / 2, m_height / 2), m_drawAngle, RED);
@@ -115,32 +120,41 @@ void Spear::render()
 
 }
 
-void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float& otherNormalOrbitSpeed)
+void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
+    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherIsFrozen, bool& gameFrozen)
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
+
+
     float physicalAngleRad = m_angle + (std::numbers::pi / 2.0f);
     Vector2 itemCenter = {m_itemRect.x, m_itemRect.y};
-    Vector2 headCenter = {m_headRect.x, m_headRect.y};
     Vector2 secondItemCenter = {otherRect.x, otherRect.y};
 
-    std::vector<Vector2> itemRectPoly = getRotatedRect(itemCenter, m_itemRect.width, m_itemRect.height, physicalAngleRad);
-    std::vector<Vector2> headRectPoly = getRotatedRect(headCenter, m_headRect.width, m_headRect.height, physicalAngleRad);
+    std::vector<Vector2> itemPoly = getRotatedRect(itemCenter, m_itemRect.width, m_itemRect.height, physicalAngleRad);
     std::vector<Vector2> otherItemPoly = getRotatedRect(secondItemCenter, otherRect.width, otherRect.height, physicalAngleRad);
-
     Vector2 circleCenter = Vector2(b2Body_GetPosition(ball.getBallId()).x * 30, b2Body_GetPosition(ball.getBallId()).y * 30);
     float radius = ball.getRadius();
 
-    bool hit = satCircleVsPolygon(circleCenter, radius, itemRectPoly);
+    bool hit = satCircleVsPolygon(circleCenter, radius, itemPoly);
+    bool itemsHit = satCollisions(itemPoly, otherItemPoly);
+
+    if (itemsHit)
+    {
+        if (!ball.getFrozen() && !ball2.getFrozen())
+        {
+            m_direction *= -1;
+        }
+    }
 
     if (hit && !m_debounce)
     {
         m_debounce = true;
         StartTimer(&timer, lifeTime);
         StartTimer(&freezeTimer, freezeLifeTime);
-        m_height += 5;
+        ball.takeDamage(m_damage);
+        m_damage += 1;
     }
-
 
     if (TimerDone(&timer))
     {
@@ -149,26 +163,11 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
 
     if (TimerDone(&freezeTimer))
     {
-        m_orbitSpeed = m_normalOrbitSpeed;
-        otherOrbitSpeed = otherNormalOrbitSpeed;
-        ball.setColor(RED);
-        ball.setFrozen(false);
-        ball2.setFrozen(false);
-        b2Body_SetGravityScale(ball.getBallId(), 1.0f);
-        b2Body_SetGravityScale(ball.getBallId(), 1.0f);
+        gameFrozen = false;
     }
     else
     {
-        m_orbitSpeed = 0;
-        otherOrbitSpeed = 0;
-        ball.setColor(RAYWHITE);
-        ball.setFrozen(true);
-        ball2.setFrozen(true);
-        b2Body_SetLinearVelocity(ball.getBallId(), b2Vec2(0.0f, 0.0f));
-        b2Body_SetLinearVelocity(ball2.getBallId(), b2Vec2(0.0f, 0.0f));
-        b2Body_SetGravityScale(ball.getBallId(), 0.0f);
-        b2Body_SetGravityScale(ball2.getBallId(), 0.0f);
-
+        gameFrozen = true;
     }
 }
 
