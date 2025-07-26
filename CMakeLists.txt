@@ -19,6 +19,8 @@ add_executable(Physics src/main.cpp
         src/RaylibTimer.h
         src/Sword.cpp
         src/Sword.h
+        src/Dagger.cpp
+        src/Dagger.h
 )
 
 find_package(box2d REQUIRED)

@@ -8,6 +8,7 @@
 
 #include "Box.h"
 #include "Ball.h"
+#include "Dagger.h"
 #include "spear.h"
 #include "Sword.h"
 
@@ -27,6 +28,7 @@ private:
     Item testItem;
     Spear spear;
     Sword sword;
+    Dagger dagger;
 public:
     void startUp();
     void update();
