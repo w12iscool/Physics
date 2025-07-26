@@ -12,7 +12,7 @@ void Spear::initTextures()
     (*m_spearHeadTexture) = LoadTexture("./resources/spearHead.png");
 }
 
-Rectangle& Spear::returnItemRect()
+Rectangle& Spear::getRect()
 {
     return m_itemRect;
 }
@@ -82,14 +82,19 @@ void Spear::rotateHead()
     m_headRect = {m_itemRect.x, m_itemRect.y, m_width, 20};
 }
 
-bool& Spear::getIsFrozen()
+bool& Spear::getFrozen()
 {
     return m_isFrozen;
 }
 
-bool& Spear::getIsCollisionDb()
+bool& Spear::getCollDb()
 {
     return m_collisionDb;
+}
+
+void Spear::rotate(Ball& target, float& orbitSpeed)
+{
+    Item::rotate(target, m_itemRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
 }
 
 void Spear::render()

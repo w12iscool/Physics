@@ -18,9 +18,14 @@ void GameEngine::startUp()
     ball.initBallBox2d(m_worldId);
     ball2.initBallBox2d(m_worldId);
 
-    spear.initTextures();
-    sword.initTextures();
-    dagger.initTextures();
+    // chgna the weapons fighting
+    m_weapons.push_back(&spear);
+    m_weapons.push_back(&dagger);
+
+    for (auto& w : m_weapons)
+    {
+        w->initTextures();
+    }
 
     ball.initDefaultColor(RED);
     ball2.initDefaultColor(BLUE);
@@ -73,20 +78,22 @@ void GameEngine::update()
         ball2.setFrozen(false);
     }
 
-    ball.handleFreezing(swordOrbitSpeed, swordNormalOrbitSpeed, ball2, m_gameFrozen);
-    ball2.handleFreezing(daggerOrbitSpeed, daggerNormalOrbitSpeed, ball, m_gameFrozen);
+    ball.handleFreezing(m_weapons[0]->getOrbitSpeed(), m_weapons[0]->getNormalOrbitSpeed(), ball2, m_gameFrozen);
+    ball2.handleFreezing(m_weapons[1]->getOrbitSpeed(), m_weapons[1]->getNormalOrbitSpeed(), ball, m_gameFrozen);
 
-    sword.rotate(ball, sword.getRect(), swordOrbitSpeed, sword.getAngle(), sword.getDrawAngle(), sword.getWidth(), sword.getHeight(), sword.getRadiusOffset(), sword.getDirection(), sword.getFrozen());
+    // sword.rotate(ball, swordOrbitSpeed);
     spear.rotateHead();
-    dagger.rotate(ball2, dagger.getRect(), daggerOrbitSpeed, dagger.getAngle(), dagger.getDrawAngle(), dagger.getWidth(), dagger.getHeight(), dagger.getRadiusOffset(), dagger.getDirection(), dagger.getFrozen());
+    // dagger.rotate(ball2, daggerOrbitSpeed);
+
+    m_weapons[0]->rotate(ball, m_weapons[0]->getOrbitSpeed());
+    spear.rotateHead();
+    m_weapons[1]->rotate(ball2, m_weapons[1]->getOrbitSpeed());
 
     ball.keepMoving();
     ball2.keepMoving();
 
-    sword.handleCollision(ball2, debounceTimerItem1, debounceLifeTimeItem1, ball, freezeTimer, freezeLifeTime, dagger.getOrbitSpeed(), dagger.getRect(), dagger.getNormalOrbitSpeed(), dagger.getFrozen(), m_gameFrozen, dagger.getDirection(), dagger.getCollDb(), dagger.getAngle());
-    dagger.handleCollision(ball, debounceTimerDagger, debounceLifeTimeDagger, ball2, freezeTimer, freezeLifeTime, sword.getOrbitSpeed(), sword.getRect(), sword.getNormalOrbitSpeed(), sword.getFrozen(), m_gameFrozen, sword.getDirection(), sword.getCollDb(), sword.getAngle());
-    // ball.handleColor(hitItem::itemHit::Spear);
-    // ball2.handleColor(hitItem::itemHit::Sword);\
+    m_weapons[0]->handleCollision(ball2, debounceTimerItem1, debounceLifeTimeItem1, ball, freezeTimer, freezeLifeTime, m_weapons[1]->getOrbitSpeed(), m_weapons[1]->getRect(), m_weapons[1]->getNormalOrbitSpeed(), m_weapons[1]->getFrozen(), m_gameFrozen, m_weapons[1]->getDirection(), m_weapons[1]->getCollDb(), m_weapons[1]->getAngle());
+    m_weapons[1]->handleCollision(ball, debounceTimerItem1, debounceLifeTimeItem1, ball2, freezeTimer, freezeLifeTime, m_weapons[0]->getOrbitSpeed(), m_weapons[0]->getRect(), m_weapons[0]->getNormalOrbitSpeed(), m_weapons[0]->getFrozen(), m_gameFrozen, m_weapons[0]->getDirection(), m_weapons[0]->getCollDb(), m_weapons[0]->getAngle());
 
 
 }
@@ -98,15 +105,22 @@ void GameEngine::render()
     // testItem.render();
     if (ball.getHealth() > 0)
     {
-        sword.render();
+        m_weapons[0]->render();
         ball.renderCircle();
-
+    }
+    else
+    {
+        m_weapons.erase(m_weapons.begin());
     }
 
     if (ball2.getHealth() > 0)
     {
-        dagger.render();
+        m_weapons[1]->render();
         ball2.renderCircle();
+    }
+    else
+    {
+        m_weapons.erase(m_weapons.end());
     }
 
 

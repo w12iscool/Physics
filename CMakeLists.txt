@@ -21,6 +21,7 @@ add_executable(Physics src/main.cpp
         src/Sword.h
         src/Dagger.cpp
         src/Dagger.h
+        src/Weapon.h
 )
 
 find_package(box2d REQUIRED)

@@ -10,12 +10,14 @@
 #include <raylib.h>
 #include "RaylibTimer.h"
 #include "box2d/box2d.h"
+#include "Weapon.h"
 
 #include <memory>
 
 class Item;
+class Weapon;
 class Ball;
-class Spear : public Item {
+class Spear : public Item, public Weapon {
 private:
     float m_width{ 25 };
     float m_height{ 75 };
@@ -51,27 +53,28 @@ private:
     std::unique_ptr<Texture2D> m_spearHeadTexture = std::make_unique<Texture2D>();
 
 public:
-    Rectangle& returnItemRect();
+    Rectangle& getRect() override;
     Rectangle& returnHeadRect();
-    float& getOrbitSpeed();
-    float& getNormalOrbitSpeed();
-    float& getWidth();
-    float& getHeight();
-    float& getDrawAngle();
-    float& getAngle();
-    float& getDirection();
-    float& getRadiusOffset();
+    float& getOrbitSpeed() override;
+    float& getNormalOrbitSpeed() override;
+    float& getWidth() override;
+    float& getHeight() override;
+    float& getDrawAngle() override;
+    float& getAngle() override;
+    float& getDirection() override;
+    float& getRadiusOffset() override;
     float& getHeadWidth();
     float& getHeadAngle();
     float& getHeadDrawAngle();
 
     void render() override;
     void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
-    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle);
-    void initTextures();
+    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle) override;
+    void initTextures() override;
     void rotateHead();
 
-    bool& getIsFrozen();
-    bool& getIsCollisionDb();
+    bool& getFrozen() override;
+    bool& getCollDb() override;
+    void rotate(Ball& target, float& orbitSpeed) override;
 };
 

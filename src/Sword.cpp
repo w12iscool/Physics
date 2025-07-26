@@ -145,3 +145,8 @@ bool& Sword::getCollDb()
 {
     return m_collisionDb;
 }
+
+void Sword::rotate(Ball& target, float& orbitSpeed)
+{
+    Item::rotate(target, m_swordRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
+}

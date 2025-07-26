@@ -12,10 +12,13 @@
 
 #include <memory>
 
+#include "Weapon.h"
+
 class Item;
+class Weapon;
 class Ball;
 
-class Sword : public Item {
+class Sword : public Item, public Weapon {
 private:
     float m_width{ 50 };
     float m_height{ 120 };
@@ -45,23 +48,24 @@ private:
     float m_direction = -1;
     std::unique_ptr<Texture2D> m_swordTexture = std::make_unique<Texture2D>();
 public:
-    Rectangle& getRect();
-    float& getOrbitSpeed();
-    float& getAngle();
-    float& getDrawAngle();
-    float& getWidth();
+    Rectangle& getRect() override;
+    float& getOrbitSpeed() override;
+    float& getAngle() override;
+    float& getDrawAngle() override;
+    float& getWidth() override;
     float& getHeight() override;
-    float& getRadiusOffset();
-    float& getNormalOrbitSpeed();
-    float& getDirection();
+    float& getRadiusOffset() override;
+    float& getNormalOrbitSpeed() override;
+    float& getDirection() override;
 
     void render() override;
-    void initTextures();
-    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle);
+    void initTextures() override;
+    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle) override;
     void freezeSword();
 
-    bool& getFrozen();
-    bool& getCollDb();
+    bool& getFrozen() override;
+    bool& getCollDb() override;
+    void rotate(Ball& target, float& orbitSpeed) override;
 };
 
 

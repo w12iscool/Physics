@@ -144,3 +144,8 @@ bool& Dagger::getCollDb()
 {
     return m_collisionDb;
 }
+
+void Dagger::rotate(Ball& target, float& orbitSpeed)
+{
+    Item::rotate(target, m_daggerRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
+}

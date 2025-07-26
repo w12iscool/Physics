@@ -29,6 +29,7 @@ private:
     Spear spear;
     Sword sword;
     Dagger dagger;
+    std::vector<Weapon*> m_weapons;
 public:
     void startUp();
     void update();
