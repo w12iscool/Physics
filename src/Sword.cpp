@@ -121,7 +121,7 @@ void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
     if (TimerDone(&freezeTimer))
     {
         ball.setWhoHitMe(hitItem::itemHit::None);
-        ball.setColor(RED);
+        ball.setColor(ball.getDefaultColor());
         gameFrozen = false;
     }
     else

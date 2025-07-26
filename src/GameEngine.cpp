@@ -9,7 +9,7 @@
 void GameEngine::startUp()
 {
     b2WorldDef worldDef = b2DefaultWorldDef();
-    worldDef.gravity = b2Vec2(0.0f, 50.0f);
+    worldDef.gravity = b2Vec2(0.0f, 70.0f);
     b2SetLengthUnitsPerMeter(30.0f);
     m_worldId = b2CreateWorld(&worldDef);
 
@@ -20,6 +20,9 @@ void GameEngine::startUp()
 
     spear.initTextures();
     sword.initTextures();
+
+    ball.initDefaultColor(RED);
+    ball2.initDefaultColor(BLUE);
 }
 
 

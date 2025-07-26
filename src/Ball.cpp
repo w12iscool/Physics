@@ -114,7 +114,7 @@ void Ball::keepMoving()
     {
         if (velocity.x == 0 || velocity.y == 0)
         {
-            b2Body_SetLinearVelocity(m_ballId, b2Vec2(Random::get(-30, 30), Random::get(0, 50)));
+            b2Body_SetLinearVelocity(m_ballId, b2Vec2(Random::get(-10, 20), Random::get(0, 30)));
         }
     }
 }
@@ -192,4 +192,15 @@ void Ball::handleDeath()
 int Ball::getHealth()
 {
     return m_health;
+}
+
+void Ball::initDefaultColor(Color color)
+{
+    m_defaultColor = color;
+    m_color = m_defaultColor;
+}
+
+Color Ball::getDefaultColor()
+{
+    return m_defaultColor;
 }

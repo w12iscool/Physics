@@ -28,6 +28,7 @@ class Ball {
 private:
     float m_radius{ 30 };
     Vector2 m_pos = Vector2((SCREEN_WIDTH - m_radius) / 2, (SCREEN_HEIGHT - m_radius) / 2);
+    Color m_defaultColor{ RED };
     Color m_color{ RED };
     bool m_isFrozen{ false };
     bool m_freezeDebounce{ false };
@@ -60,6 +61,8 @@ public:
     void handleDeath();
 
     int getHealth();
+    void initDefaultColor(Color color);
+    Color getDefaultColor();
 };
 
 

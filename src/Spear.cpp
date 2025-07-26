@@ -185,7 +185,7 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
 
     if (TimerDone(&freezeTimer))
     {
-        ball.setColor(RED);
+        ball.setColor(ball.getDefaultColor());
         ball.setWhoHitMe(hitItem::itemHit::None);
         gameFrozen = false;
     }
