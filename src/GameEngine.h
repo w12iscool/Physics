@@ -9,6 +9,7 @@
 #include "Box.h"
 #include "Ball.h"
 #include "Dagger.h"
+#include "Shield.h"
 #include "spear.h"
 #include "Sword.h"
 
@@ -29,6 +30,7 @@ private:
     Spear spear;
     Sword sword;
     Dagger dagger;
+    Shield shield;
     std::vector<Weapon*> m_weapons;
 public:
     void startUp();

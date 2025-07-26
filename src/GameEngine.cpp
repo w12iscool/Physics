@@ -19,7 +19,7 @@ void GameEngine::startUp()
     ball2.initBallBox2d(m_worldId);
 
     // chgna the weapons fighting
-    m_weapons.push_back(&spear);
+    m_weapons.push_back(&shield);
     m_weapons.push_back(&dagger);
 
     for (auto& w : m_weapons)
