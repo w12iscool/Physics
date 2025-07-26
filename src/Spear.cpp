@@ -87,6 +87,11 @@ bool& Spear::getIsFrozen()
     return m_isFrozen;
 }
 
+bool& Spear::getIsCollisionDb()
+{
+    return m_collisionDb;
+}
+
 void Spear::render()
 {
     DrawRectanglePro(m_headRect, Vector2(m_width / 2, m_height / 2), m_drawAngle, RED);
@@ -121,7 +126,7 @@ void Spear::render()
 }
 
 void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
-    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherIsFrozen, bool& gameFrozen)
+    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherIsFrozen, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle)
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
@@ -143,17 +148,34 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
     {
         if (!ball.getFrozen() && !ball2.getFrozen())
         {
-            m_direction *= -1;
+            if (!m_collisionDb)
+            {
+                m_direction *= -1;
+                otherDirection *= -1;
+                const float deflectionStrength = DEG2RAD * 8.0f;
+                m_angle += m_direction * deflectionStrength;
+                otherAngle += otherDirection * deflectionStrength;
+
+                m_collisionDb = true;
+                otherDb = true;
+            }
+
         }
     }
+    else
+    {
+        m_collisionDb = false;
+    }
 
-    if (hit && !m_debounce)
+
+    if (hit && !m_debounce && !itemsHit)
     {
         m_debounce = true;
         StartTimer(&timer, lifeTime);
         StartTimer(&freezeTimer, freezeLifeTime);
         ball.takeDamage(m_damage);
-        m_damage += 1;
+        m_height += 30;
+        ball.setColor(RAYWHITE);
     }
 
     if (TimerDone(&timer))
@@ -163,10 +185,13 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
 
     if (TimerDone(&freezeTimer))
     {
+        ball.setColor(RED);
+        ball.setWhoHitMe(hitItem::itemHit::None);
         gameFrozen = false;
     }
     else
     {
+        ball.setWhoHitMe(hitItem::itemHit::Spear);
         gameFrozen = true;
     }
 }

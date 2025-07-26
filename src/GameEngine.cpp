@@ -30,8 +30,8 @@ int subStepCount  = 4;
 Timer debounceTimerSpear{ 0 };
 float debounceLifeTimeSpear{ 0.7 };
 
-Timer freezeTimerSpear{ 0 };
-float freezeLifeTimeSpear{ 0.6 };
+Timer randomMovementTimer{ 0 };
+float randomMovementLifetime{ 5 };
 
 // Timer stuff for sword
 Timer debounceTimerSword{ 0 };
@@ -72,8 +72,10 @@ void GameEngine::update()
     ball.keepMoving();
     ball2.keepMoving();
 
-    spear.handleCollision(ball2, debounceTimerSpear, debounceLifeTimeSpear, ball, freezeTimerSword, freezeLifeTimeSword, sword.getOrbitSpeed(), sword.getRect(), sword.getNormalOrbitSpeed(), sword.getFrozen(), m_gameFrozen);
-    sword.handleCollision(ball, debounceTimerSword, debounceLifeTimeSword, ball2, freezeTimerSword, freezeLifeTimeSword, spear.getOrbitSpeed(), spear.returnItemRect(), spear.getNormalOrbitSpeed(), spear.getIsFrozen(), m_gameFrozen);
+    spear.handleCollision(ball2, debounceTimerSpear, debounceLifeTimeSpear, ball, freezeTimerSword, freezeLifeTimeSword, sword.getOrbitSpeed(), sword.getRect(), sword.getNormalOrbitSpeed(), sword.getFrozen(), m_gameFrozen, sword.getDirection(), sword.getCollDb(), sword.getAngle());
+    sword.handleCollision(ball, debounceTimerSword, debounceLifeTimeSword, ball2, freezeTimerSword, freezeLifeTimeSword, spear.getOrbitSpeed(), spear.returnItemRect(), spear.getNormalOrbitSpeed(), spear.getIsFrozen(), m_gameFrozen, spear.getDirection(), spear.getIsCollisionDb(), spear.getAngle());
+    // ball.handleColor(hitItem::itemHit::Spear);
+    // ball2.handleColor(hitItem::itemHit::Sword);\
 
 
 }
@@ -82,11 +84,20 @@ void GameEngine::render()
 {
     ClearBackground(RAYWHITE);
     box.renderRect();
-    ball.renderCircle();
-    ball2.renderCircle();
     // testItem.render();
-    spear.render();
-    sword.render();
+    if (ball.getHealth() > 0)
+    {
+        spear.render();
+        ball.renderCircle();
+
+    }
+
+    if (ball2.getHealth() > 0)
+    {
+        sword.render();
+        ball2.renderCircle();
+    }
+
 
 }
 

@@ -11,7 +11,19 @@
 #include "RaylibTimer.h"
 #include <string>
 
+
+
 class Item;
+namespace hitItem
+{
+    enum itemHit
+    {
+        None,
+        Spear,
+        Sword
+    };
+}
+
 class Ball {
 private:
     float m_radius{ 30 };
@@ -20,6 +32,7 @@ private:
     bool m_isFrozen{ false };
     bool m_freezeDebounce{ false };
     int m_health{ 100 };
+    hitItem::itemHit m_whatHitMe = hitItem::itemHit::None;
 
 private:
     b2BodyId m_ballId = { 0 };
@@ -38,8 +51,15 @@ public:
     void setColor(Color newColor);
     void takeDamage(int damage);
     bool getFrozen();
+    hitItem::itemHit getItemHit();
+    void setWhoHitMe(hitItem::itemHit item);
 
     void handleFreezing(float& orbitSpeed, float normalOrbitSpeed, Ball& ball, bool& gameFrozen);
+    void handleColor(hitItem::itemHit hostItem);
+
+    void handleDeath();
+
+    int getHealth();
 };
 
 

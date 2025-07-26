@@ -192,6 +192,47 @@ bool Item::satCircleVsPolygon(Vector2 circleCenter, float radius, const std::vec
     return true;
 }
 
+Vector2 Item::getMinTranslationVector(const std::vector<Vector2>& polyA, const std::vector<Vector2>& polyB)
+{
+    float smallestOverlap = INFINITY;
+    Vector2 smallestAxis = {};
+
+    std::vector<Vector2> axes;
+
+    auto getAxes = [&](const std::vector<Vector2>& poly)
+    {
+        for (int i{ 0 }; i < poly.size(); ++i)
+        {
+            Vector2 p1 = poly[i];
+            Vector2 p2 = poly[(i + 1) % poly.size()];
+            axes.push_back(Normalize(Perpendicular(Vector2Subtract(p2, p1))));
+        }
+    };
+
+    getAxes(polyA);
+    getAxes(polyB);
+
+    for (const Vector2& axis : axes)
+    {
+        Projection projA = projectPolygon(polyA, axis);
+        Projection projB = projectPolygon(polyB, axis);
+
+        if (!Overlaps(projA, projB))
+        {
+            return {0, 0};
+        }
+
+        float overlap = std::min(projA.max, projB.max) - std::max(projA.min, projB.min);
+        if (overlap < smallestOverlap)
+        {
+            smallestOverlap = overlap;
+            smallestAxis = axis;
+        }
+    }
+
+    return Vector2Scale(smallestAxis, smallestOverlap);
+}
+
 
 
 

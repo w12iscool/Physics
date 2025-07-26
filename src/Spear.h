@@ -23,8 +23,8 @@ private:
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
     float m_headAngle{ 0.0 };
-    float m_orbitSpeed{ 5.0f };
-    float m_normalOrbitSpeed{ 5.0f };
+    float m_orbitSpeed{ 9.0f };
+    float m_normalOrbitSpeed{ 9.0f };
     int m_damage{ 1 };
 
     Rectangle m_itemRect;
@@ -44,6 +44,8 @@ private:
     float m_direction { 1.0f };
     bool m_isFrozen = false;
     float m_radiusOffset{ 40 };
+
+    bool m_collisionDb{ false };
 
     std::unique_ptr<Texture2D> m_stickTexture = std::make_unique<Texture2D>();
     std::unique_ptr<Texture2D> m_spearHeadTexture = std::make_unique<Texture2D>();
@@ -65,10 +67,11 @@ public:
 
     void render() override;
     void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
-    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen);
+    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle);
     void initTextures();
     void rotateHead();
 
     bool& getIsFrozen();
+    bool& getIsCollisionDb();
 };
 

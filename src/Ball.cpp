@@ -114,7 +114,7 @@ void Ball::keepMoving()
     {
         if (velocity.x == 0 || velocity.y == 0)
         {
-            b2Body_SetLinearVelocity(m_ballId, b2Vec2(Random::get(-50, 50), Random::get(-50, 50)));
+            b2Body_SetLinearVelocity(m_ballId, b2Vec2(Random::get(-30, 30), Random::get(0, 50)));
         }
     }
 }
@@ -140,19 +140,56 @@ bool Ball::getFrozen()
     return m_isFrozen;
 }
 
+hitItem::itemHit Ball::getItemHit()
+{
+    return m_whatHitMe;
+}
+
+void Ball::setWhoHitMe(hitItem::itemHit item)
+{
+    m_whatHitMe = item;
+}
+
 void Ball::handleFreezing(float& orbitSpeed, float normalOrbitSpeed, Ball& otherBall, bool& gameFrozen)
 {
     if (m_isFrozen)
     {
-        m_color = RAYWHITE;
         orbitSpeed = 0;
         b2Body_SetLinearVelocity(m_ballId, b2Vec2(0.0f, 0.0f ));
         b2Body_SetGravityScale(m_ballId, 0.0f);
     }
     else
     {
-        m_color = RED;
         orbitSpeed = normalOrbitSpeed;
         b2Body_SetGravityScale(m_ballId, 1.0f);
     }
+}
+
+void Ball::handleColor(hitItem::itemHit hostItem)
+{
+    if (m_whatHitMe == hitItem::itemHit::Sword && hostItem == hitItem::itemHit::Spear)
+    {
+        m_color = RAYWHITE;
+    }
+    else if (m_whatHitMe == hitItem::itemHit::Spear && hostItem == hitItem::itemHit::Sword)
+    {
+        m_color = RAYWHITE;
+    }
+    else if (m_whatHitMe == hitItem::itemHit::None)
+    {
+        m_color = RED;
+    }
+}
+
+void Ball::handleDeath()
+{
+    if (m_health <= 0)
+    {
+        m_radius = 0;
+    }
+}
+
+int Ball::getHealth()
+{
+    return m_health;
 }

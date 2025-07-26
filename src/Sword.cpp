@@ -63,7 +63,7 @@ void Sword::initTextures()
 }
 
 void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
-    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherIsFrozen, bool& gameFrozen)
+    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherIsFrozen, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle)
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
@@ -85,17 +85,32 @@ void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
     {
         if (!ball.getFrozen() && !ball2.getFrozen())
         {
-            m_direction *= -1;
+            if (!m_collisionDb)
+            {
+                m_direction *= -1;
+                otherDirection *= -1;
+                const float deflectionStrength = DEG2RAD * 12.0f;
+                m_angle += m_direction * deflectionStrength;
+                otherAngle += otherDirection * deflectionStrength;
+                m_collisionDb = true;
+                otherDb = true;
+            }
+
         }
     }
+    else
+    {
+        m_collisionDb = false;
+    }
 
-    if (hit && !m_debounce)
+    if (hit && !m_debounce && !itemsHit)
     {
         m_debounce = true;
         StartTimer(&timer, lifeTime);
         StartTimer(&freezeTimer, freezeLifeTime);
         ball.takeDamage(m_damage);
         m_damage += 1;
+        ball.setColor(RAYWHITE);
     }
 
     if (TimerDone(&timer))
@@ -105,10 +120,13 @@ void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
 
     if (TimerDone(&freezeTimer))
     {
+        ball.setWhoHitMe(hitItem::itemHit::None);
+        ball.setColor(RED);
         gameFrozen = false;
     }
     else
     {
+        ball.setWhoHitMe(hitItem::itemHit::Sword);
         gameFrozen = true;
     }
 }
@@ -121,4 +139,9 @@ void Sword::freezeSword()
 bool& Sword::getFrozen()
 {
     return m_isFrozen;
+}
+
+bool& Sword::getCollDb()
+{
+    return m_collisionDb;
 }
