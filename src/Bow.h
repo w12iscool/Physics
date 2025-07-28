@@ -1,39 +1,32 @@
 //
-// Created by Harshad on 7/25/2025.
+// Created by Harshad on 7/26/2025.
 //
-
-
 #pragma once
 
-#include <raylib.h>
+#include "Weapon.h"
 #include "Item.h"
 #include "Ball.h"
-#include <iostream>
-#include "RaylibTimer.h"
-#include "box2d/box2d.h"
 
-#include <memory>
-
-#include "Weapon.h"
-
+class Ball;
 class Item;
 class Weapon;
-class Ball;
-
-class Dagger : public Item, public Weapon
-{
+class Bow : public Item, public Weapon {
 private:
 
+
     float m_width{ 60 };
-    float m_height{ 65 };
+    float m_height{ 30 };
+    float m_arrowWidth{ 10 };
+    float m_arrowHeight{ 30 };
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
-    float m_orbitSpeed{ 50.0f };
-    float m_normalOrbitSpeed{ 30.0f };
+    float m_orbitSpeed{ 6.0f };
+    float m_normalOrbitSpeed{ 6.0f };
     int m_damage{ 1 };
-    float m_radiusOffset{ 30 };
+    float m_radiusOffset{ 10 };
 
-    Rectangle m_daggerRect;
+    Rectangle m_bowRect;
+    Rectangle m_arrowRect;
     float m_drawAngle;
 
     struct Projection
@@ -50,10 +43,11 @@ private:
     bool m_collisionDb{ false };
 
     float m_direction = -1;
-
-    std::unique_ptr<Texture2D> m_daggerTexture = std::make_unique<Texture2D>();
+    std::unique_ptr<Texture2D> m_bowTexture = std::make_unique<Texture2D>();
+    std::unique_ptr<Texture2D> m_arrowTexture = std::make_unique<Texture2D>();
 public:
-!    Rectangle& getRect() override;
+
+    Rectangle& getRect() override;
     float& getOrbitSpeed() override;
     float& getAngle() override;
     float& getDrawAngle() override;
@@ -72,5 +66,7 @@ public:
     bool& getCollDb() override;
     void rotate(Ball& target, float& orbitSpeed) override;
 };
+
+
 
 

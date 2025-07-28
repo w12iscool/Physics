@@ -9,8 +9,8 @@ add_executable(Physics src/main.cpp
         src/GameEngine.cpp
         src/GameEngine.h
         src/Constants.h
-        src/Ball.cpp
-        src/Ball.h
+        "src/Ball.cpp"
+        "src/Ball.h"
         src/Item.cpp
         src/Item.h
         src/spear.cpp
@@ -24,6 +24,8 @@ add_executable(Physics src/main.cpp
         src/Weapon.h
         src/Shield.cpp
         src/Shield.h
+        src/Bow.cpp
+        src/Bow.h
 )
 
 find_package(box2d REQUIRED)
