@@ -53,7 +53,7 @@ private:
 
     std::unique_ptr<Texture2D> m_daggerTexture = std::make_unique<Texture2D>();
 public:
-!    Rectangle& getRect() override;
+    Rectangle& getRect() override;
     float& getOrbitSpeed() override;
     float& getAngle() override;
     float& getDrawAngle() override;

@@ -8,6 +8,7 @@
 
 #include "Box.h"
 #include "Ball.h"
+#include "Bow.h"
 #include "Dagger.h"
 #include "Shield.h"
 #include "spear.h"
@@ -18,6 +19,7 @@ class Ball;
 class Item;
 class Spear;
 class Sword;
+class Bow;
 class GameEngine {
 private:
     b2WorldId m_worldId = {0};
@@ -31,6 +33,7 @@ private:
     Sword sword;
     Dagger dagger;
     Shield shield;
+    Bow bowAndArrow;
     std::vector<Weapon*> m_weapons;
 public:
     void startUp();

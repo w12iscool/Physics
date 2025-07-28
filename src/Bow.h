@@ -14,17 +14,39 @@ class Bow : public Item, public Weapon {
 private:
 
 
-    float m_width{ 60 };
-    float m_height{ 30 };
-    float m_arrowWidth{ 10 };
-    float m_arrowHeight{ 30 };
+    float m_width{ 150 };
+    float m_height{ 100 };
+    float m_arrowWidth{ 50 };
+    float m_arrowHeight{ 70 };
     Vector2 m_pos{ 0, 0 };
+    Vector2 m_arrowPos{ 0, 0 };
+    bool m_arrowShot{ false };
+    Timer m_shootTimer{ 0 };
+    Vector2 m_arrowVelocity{};
+    float m_arrowSpeed{ 600.0f };
     float m_angle{ 0.0f };
     float m_orbitSpeed{ 6.0f };
     float m_normalOrbitSpeed{ 6.0f };
     int m_damage{ 1 };
     float m_radiusOffset{ 10 };
+    float m_bowTimerLifeTime{ 1.0f };
+    Timer m_arrowInterval{ 0 };
+    float m_arrowIntervalLifeTime{ 0.1f };
+    bool m_burstActive = false;
+    int m_currentNumOfArrows{ 0 };
 
+    int m_numOfArrows{ 1 };
+    int m_addition{ 0 };
+
+    struct m_Arrow
+    {
+        Vector2 pos;
+        Vector2 velocity;
+        bool active = true;
+        float angleDeg;
+    };
+
+    std::vector<m_Arrow> arrowsVector{};
     Rectangle m_bowRect;
     Rectangle m_arrowRect;
     float m_drawAngle;
