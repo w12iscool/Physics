@@ -1,52 +1,31 @@
 //
-// Created by Harshad on 7/26/2025.
+// Created by Harshad on 7/28/2025.
 //
+
 #pragma once
 
 #include "Weapon.h"
 #include "Item.h"
 #include "Ball.h"
+#include "RaylibTimer.h"
 
 class Ball;
 class Item;
 class Weapon;
-class Bow : public Item, public Weapon {
+
+class Scythe : public Item, public Weapon {
 private:
-    float m_width{ 150 };
-    float m_height{ 100 };
-    float m_arrowWidth{ 50 };
-    float m_arrowHeight{ 70 };
+    float m_width{ 60 };
+    float m_height{ 80 };
     Vector2 m_pos{ 0, 0 };
-    Vector2 m_arrowPos{ 0, 0 };
-    bool m_arrowShot{ false };
-    Timer m_shootTimer{ 0 };
-    Vector2 m_arrowVelocity{};
-    float m_arrowSpeed{ 600.0f };
     float m_angle{ 0.0f };
-    float m_orbitSpeed{ 4.0f };
-    float m_normalOrbitSpeed{ 4.0f };
-    int m_damage{ 2 };
-    float m_radiusOffset{ 10 };
-    float m_bowTimerLifeTime{ 2.0f };
-    Timer m_arrowInterval{ 0 };
-    float m_arrowIntervalLifeTime{ 0.1f };
-    bool m_burstActive = false;
-    int m_currentNumOfArrows{ 0 };
+    float m_orbitSpeed{ 10.0f };
+    float m_normalOrbitSpeed{ 10.0f };
+    int m_damage{ 1 };
+    float m_radiusOffset{ 40 };
+    int m_poisonAmt{ 1 };
 
-    int m_numOfArrows{ 1 };
-    int m_addition{ 0 };
-
-    struct m_Arrow
-    {
-        Vector2 pos;
-        Vector2 velocity;
-        bool active = true;
-        float angleDeg;
-    };
-
-    std::vector<m_Arrow> arrowsVector{};
-    Rectangle m_bowRect;
-    Rectangle m_arrowRect;
+    Rectangle m_scytheRect;
     float m_drawAngle;
 
     struct Projection
@@ -63,10 +42,13 @@ private:
     bool m_collisionDb{ false };
 
     float m_direction = -1;
-    std::unique_ptr<Texture2D> m_bowTexture = std::make_unique<Texture2D>();
-    std::unique_ptr<Texture2D> m_arrowTexture = std::make_unique<Texture2D>();
-public:
 
+    std::unique_ptr<Texture2D> m_scytheTexture = std::make_unique<Texture2D>();
+
+    Timer m_poisonTimer = { 0 };
+    float m_poisonLifeTime{ 1.25f };
+
+public:
     Rectangle& getRect() override;
     float& getOrbitSpeed() override;
     float& getAngle() override;
@@ -86,7 +68,4 @@ public:
     bool& getCollDb() override;
     void rotate(Ball& target, float& orbitSpeed) override;
 };
-
-
-
 

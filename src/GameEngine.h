@@ -13,6 +13,7 @@
 #include "Shield.h"
 #include "spear.h"
 #include "Sword.h"
+#include "Scythe.h"
 
 class Box;
 class Ball;
@@ -20,6 +21,7 @@ class Item;
 class Spear;
 class Sword;
 class Bow;
+class Scythe;
 class GameEngine {
 private:
     b2WorldId m_worldId = {0};
@@ -34,6 +36,7 @@ private:
     Dagger dagger;
     Shield shield;
     Bow bowAndArrow;
+    Scythe scythe;
     std::vector<Weapon*> m_weapons;
 public:
     void startUp();
