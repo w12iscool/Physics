@@ -19,8 +19,8 @@ void GameEngine::startUp()
     ball2.initBallBox2d(m_worldId);
 
     // chgna the weapons fighting
-    m_weapons.push_back(&sword);
-    m_weapons.push_back(&scythe);
+    m_weapons.push_back(&mace);
+    m_weapons.push_back(&spear);
 
     for (auto& w : m_weapons)
     {
@@ -47,7 +47,7 @@ Timer debounceTimerItem2{ 0 };
 float debounceLifeTimeItem2{ 0.7 };
 
 Timer freezeTimer{ 0 };
-float freezeLifeTime{ 0.6 };
+float freezeLifeTime{ 0.4 };
 
 // Timer stuff for dagger
 Timer debounceTimerDagger{ 0 };
@@ -92,8 +92,11 @@ void GameEngine::update()
     ball.keepMoving();
     ball2.keepMoving();
 
-    m_weapons[0]->handleCollision(ball2, debounceTimerItem1, debounceLifeTimeItem1, ball, freezeTimer, freezeLifeTime, m_weapons[1]->getOrbitSpeed(), m_weapons[1]->getRect(), m_weapons[1]->getNormalOrbitSpeed(), m_weapons[1]->getFrozen(), m_gameFrozen, m_weapons[1]->getDirection(), m_weapons[1]->getCollDb(), m_weapons[1]->getAngle());
-    m_weapons[1]->handleCollision(ball, debounceTimerItem1, debounceLifeTimeItem1, ball2, freezeTimer, freezeLifeTime, m_weapons[0]->getOrbitSpeed(), m_weapons[0]->getRect(), m_weapons[0]->getNormalOrbitSpeed(), m_weapons[0]->getFrozen(), m_gameFrozen, m_weapons[0]->getDirection(), m_weapons[0]->getCollDb(), m_weapons[0]->getAngle());
+    if (ball.getHealth() > 0 && ball2.getHealth() > 0)
+    {
+        m_weapons[0]->handleCollision(ball2, debounceTimerItem1, debounceLifeTimeItem1, ball, freezeTimer, freezeLifeTime, m_weapons[1]->getOrbitSpeed(), m_weapons[1]->getRect(), m_weapons[1]->getNormalOrbitSpeed(), m_weapons[1]->getFrozen(), m_gameFrozen, m_weapons[1]->getDirection(), m_weapons[1]->getCollDb(), m_weapons[1]->getAngle());
+        m_weapons[1]->handleCollision(ball, debounceTimerItem1, debounceLifeTimeItem1, ball2, freezeTimer, freezeLifeTime, m_weapons[0]->getOrbitSpeed(), m_weapons[0]->getRect(), m_weapons[0]->getNormalOrbitSpeed(), m_weapons[0]->getFrozen(), m_gameFrozen, m_weapons[0]->getDirection(), m_weapons[0]->getCollDb(), m_weapons[0]->getAngle());
+    }
 
 
 }
