@@ -8,6 +8,7 @@
 
 void GameEngine::startUp()
 {
+    InitAudioDevice();
     b2WorldDef worldDef = b2DefaultWorldDef();
     worldDef.gravity = b2Vec2(0.0f, 70.0f);
     b2SetLengthUnitsPerMeter(30.0f);
@@ -18,9 +19,12 @@ void GameEngine::startUp()
     ball.initBallBox2d(m_worldId);
     ball2.initBallBox2d(m_worldId);
 
+    ball.initFont();
+    ball2.initFont();
+
     // chgna the weapons fighting
+    m_weapons.push_back(&shield);
     m_weapons.push_back(&mace);
-    m_weapons.push_back(&spear);
 
     for (auto& w : m_weapons)
     {
@@ -47,11 +51,16 @@ Timer debounceTimerItem2{ 0 };
 float debounceLifeTimeItem2{ 0.7 };
 
 Timer freezeTimer{ 0 };
-float freezeLifeTime{ 0.4 };
+float freezeLifeTime{ 0.3 };
 
 // Timer stuff for dagger
 Timer debounceTimerDagger{ 0 };
 float debounceLifeTimeDagger{ 0.3 };
+
+// Timer stuff for parrying
+Timer freezeParryTimer{ 0 };
+float freezeLifeTimeParry{ 0.4 };
+bool parryHappened = false;
 
 
 void GameEngine::update()
@@ -89,16 +98,16 @@ void GameEngine::update()
     spear.rotateHead();
     m_weapons[1]->rotate(ball2, m_weapons[1]->getOrbitSpeed());
 
-    ball.keepMoving();
-    ball2.keepMoving();
+    ball.keepMoving(m_gameFrozen);
+    ball2.keepMoving(m_gameFrozen);
+
+
 
     if (ball.getHealth() > 0 && ball2.getHealth() > 0)
     {
-        m_weapons[0]->handleCollision(ball2, debounceTimerItem1, debounceLifeTimeItem1, ball, freezeTimer, freezeLifeTime, m_weapons[1]->getOrbitSpeed(), m_weapons[1]->getRect(), m_weapons[1]->getNormalOrbitSpeed(), m_weapons[1]->getFrozen(), m_gameFrozen, m_weapons[1]->getDirection(), m_weapons[1]->getCollDb(), m_weapons[1]->getAngle());
-        m_weapons[1]->handleCollision(ball, debounceTimerItem1, debounceLifeTimeItem1, ball2, freezeTimer, freezeLifeTime, m_weapons[0]->getOrbitSpeed(), m_weapons[0]->getRect(), m_weapons[0]->getNormalOrbitSpeed(), m_weapons[0]->getFrozen(), m_gameFrozen, m_weapons[0]->getDirection(), m_weapons[0]->getCollDb(), m_weapons[0]->getAngle());
+        m_weapons[0]->handleCollision(ball2, debounceTimerItem1, debounceLifeTimeItem1, ball, freezeTimer, freezeLifeTime, m_weapons[1]->getOrbitSpeed(), m_weapons[1]->getRect(), m_weapons[1]->getNormalOrbitSpeed(), m_weapons[1]->getFrozen(), m_gameFrozen, m_weapons[1]->getDirection(), m_weapons[1]->getCollDb(), m_weapons[1]->getAngle(), parryHappened);
+        m_weapons[1]->handleCollision(ball, debounceTimerItem1, debounceLifeTimeItem1, ball2, freezeTimer, freezeLifeTime, m_weapons[0]->getOrbitSpeed(), m_weapons[0]->getRect(), m_weapons[0]->getNormalOrbitSpeed(), m_weapons[0]->getFrozen(), m_gameFrozen, m_weapons[0]->getDirection(), m_weapons[0]->getCollDb(), m_weapons[0]->getAngle(), parryHappened);
     }
-
-
 }
 
 void GameEngine::render()

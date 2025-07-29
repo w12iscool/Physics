@@ -16,7 +16,7 @@ public:
     virtual void initTextures() = 0;
     virtual void render() = 0;
     virtual void rotate(Ball& target, float& orbitSpeed) = 0;
-    virtual void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& ) = 0;
+    virtual void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& getOtherAngle, bool& parryFreeze) = 0;
 
 
     virtual Rectangle& getRect() = 0;

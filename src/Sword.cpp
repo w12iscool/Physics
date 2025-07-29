@@ -63,10 +63,11 @@ void Sword::initTextures()
 }
 
 void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
-    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherIsFrozen, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle)
+    float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherIsFrozen, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle, bool& parrybool)
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
+    UpdateTimer(&m_parryTimer);
 
 
     float physicalAngleRad = m_angle + (std::numbers::pi / 2.0f);
@@ -85,8 +86,9 @@ void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
     {
         if (!ball.getFrozen() && !ball2.getFrozen())
         {
-            if (!m_collisionDb)
+            if (!m_collisionDb && !m_debounce)
             {
+                m_debounce = true;
                 m_direction *= -1;
                 otherDirection *= -1;
                 const float deflectionStrength = DEG2RAD * 12.0f;
@@ -94,6 +96,10 @@ void Sword::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
                 otherAngle += otherDirection * deflectionStrength;
                 m_collisionDb = true;
                 otherDb = true;
+
+                StartTimer(&freezeTimer, freezeLifeTime);
+                StartTimer(&timer, lifeTime);
+                gameFrozen = true;
             }
 
         }

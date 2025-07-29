@@ -28,7 +28,7 @@ private:
     float m_height{ 65 };
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
-    float m_orbitSpeed{ 50.0f };
+    float m_orbitSpeed{ 30.0f };
     float m_normalOrbitSpeed{ 30.0f };
     int m_damage{ 1 };
     float m_radiusOffset{ 30 };
@@ -65,7 +65,7 @@ public:
 
     void render() override;
     void initTextures() override;
-    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle) override;
+    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle, bool& parrybool) override;
     void freezeSword();
 
     bool& getFrozen() override;

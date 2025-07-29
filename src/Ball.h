@@ -47,7 +47,7 @@ public:
     b2BodyId getBallId();
     void testStopTime();
     void setPos(Vector2 newPos);
-    void keepMoving();
+    void keepMoving(bool& gameFrozen);
     void setFrozen(bool frozen);
     void setColor(Color newColor);
     void takeDamage(int damage);
@@ -63,6 +63,9 @@ public:
     int getHealth();
     void initDefaultColor(Color color);
     Color getDefaultColor();
+    void initFont();
+
+    std::unique_ptr<Font> m_font = std::make_unique<Font>();
 };
 
 

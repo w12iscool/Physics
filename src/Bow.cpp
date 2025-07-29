@@ -78,7 +78,7 @@ void Bow::initTextures()
 
 void Bow::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
     float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed,
-    bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle)
+    bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle, bool& parrybool)
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
@@ -105,8 +105,9 @@ void Bow::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2
     {
         if (!ball.getFrozen() && !ball2.getFrozen())
         {
-            if (!m_collisionDb)
+            if (!m_collisionDb && !m_debounce)
             {
+                m_debounce = true;
                 m_direction *= -1;
                 otherDirection *= -1;
                 const float deflectionStrength = DEG2RAD * 12.0f;
@@ -114,6 +115,10 @@ void Bow::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2
                 otherAngle += otherDirection * deflectionStrength;
                 m_collisionDb = true;
                 otherDb = true;
+
+                StartTimer(&freezeTimer, freezeLifeTime);
+                StartTimer(&timer, lifeTime);
+                gameFrozen = true;
             }
         }
     }

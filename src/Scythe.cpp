@@ -60,7 +60,7 @@ void Scythe::initTextures()
 
 void Scythe::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer,
     float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed,
-    bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle)
+    bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle, bool& parrybool)
 {
     UpdateTimer(&timer);
     UpdateTimer(&freezeTimer);
@@ -82,8 +82,10 @@ void Scythe::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ba
     {
         if (!ball.getFrozen() && !ball2.getFrozen())
         {
-            if (!m_collisionDb)
+            if (!m_collisionDb && !m_debounce)
             {
+                m_debounce = true;
+                StartTimer(&freezeTimer, freezeLifeTime);
                 m_direction *= -1;
                 otherDirection *= -1;
                 const float deflectionStrength = DEG2RAD * 8.0f;
@@ -92,6 +94,9 @@ void Scythe::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ba
 
                 m_collisionDb = true;
                 otherDb = true;
+
+                StartTimer(&freezeTimer, freezeLifeTime);
+                StartTimer(&timer, lifeTime);
             }
 
         }

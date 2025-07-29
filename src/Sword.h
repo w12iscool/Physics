@@ -27,7 +27,7 @@ private:
     float m_orbitSpeed{ 6.0f };
     float m_normalOrbitSpeed{ 6.0f };
     int m_damage{ 1 };
-    float m_radiusOffset{ 55 };
+    float m_radiusOffset{ 60 };
 
     Rectangle m_swordRect;
     float m_drawAngle;
@@ -47,6 +47,12 @@ private:
 
     float m_direction = -1;
     std::unique_ptr<Texture2D> m_swordTexture = std::make_unique<Texture2D>();
+
+    Timer m_parryTimer{ 0 };
+    float m_parryLifeTime{ 0.3 };
+
+    bool m_parryBool = false;
+
 public:
     Rectangle& getRect() override;
     float& getOrbitSpeed() override;
@@ -60,7 +66,7 @@ public:
 
     void render() override;
     void initTextures() override;
-    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle) override;
+    void handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ball2, Timer& freezeTimer, float& freezeLifeTime, float& otherOrbitSpeed, Rectangle& otherRect, float otherNormalOrbitSpeed, bool& otherFrozenBool, bool& gameFrozen, float& otherDirection, bool& otherDb, float& otherAngle, bool& parrybool) override;
     void freezeSword();
 
     bool& getFrozen() override;

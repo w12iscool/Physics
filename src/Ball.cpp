@@ -38,24 +38,33 @@ void Ball::initBallBox2d(b2WorldId& worldId)
 void Ball::renderCircle()
 {
     float pixelsToMeters{30};
-    DrawCircle(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters,
-               m_radius, m_color);
+    Vector2 pos = {
+        b2Body_GetPosition(m_ballId).x * pixelsToMeters,
+        b2Body_GetPosition(m_ballId).y * pixelsToMeters
+    };
 
-    // Black outline (maybe not very efficient)
-    DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius - 1, BLACK);
-    DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius, BLACK);
-    DrawCircleLines(b2Body_GetPosition(m_ballId).x * pixelsToMeters, b2Body_GetPosition(m_ballId).y * pixelsToMeters, m_radius + 1, BLACK);
+    DrawCircle(pos.x, pos.y, m_radius, m_color);
 
+    // Outline
+    DrawCircleLines(pos.x, pos.y, m_radius - 1, BLACK);
+    DrawCircleLines(pos.x, pos.y, m_radius, BLACK);
+    DrawCircleLines(pos.x, pos.y, m_radius + 1, BLACK);
+
+    // Health text rendering
     std::string temp = std::to_string(m_health);
     const char* healthText = temp.c_str();
-    int fontSize = 30;
-    int textWidth = MeasureText(healthText, fontSize);
+    float fontSize = 50.0f;
+    float spacing = 0.0f;
 
-    DrawText(
+    // Only use x-dimension for centering
+    float textWidth = MeasureTextEx(*m_font, healthText, fontSize, spacing).x;
+
+    DrawTextEx(
+        *m_font,
         healthText,
-        b2Body_GetPosition(m_ballId).x * pixelsToMeters - textWidth / 2,
-        b2Body_GetPosition(m_ballId).y * pixelsToMeters - fontSize / 2,
+        Vector2{ pos.x - textWidth * 0.5f, pos.y - fontSize * 0.5f },
         fontSize,
+        spacing,
         BLACK
     );
 }
@@ -106,11 +115,11 @@ void Ball::setPos(Vector2 newPos)
     m_pos = newPos;
 }
 
-void Ball::keepMoving()
+void Ball::keepMoving(bool& gameFrozen)
 {
     b2Vec2 velocity = b2Body_GetLinearVelocity(m_ballId);
 
-    if (!m_isFrozen)
+    if (!gameFrozen)
     {
         if (velocity.x == 0 || velocity.y == 0)
         {
@@ -203,4 +212,9 @@ void Ball::initDefaultColor(Color color)
 Color Ball::getDefaultColor()
 {
     return m_defaultColor;
+}
+
+void Ball::initFont()
+{
+    (*m_font) = LoadFont("./resources/Anton-Regular.ttf");
 }

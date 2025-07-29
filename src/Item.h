@@ -48,6 +48,7 @@ public:
     bool satCircleVsPolygon(Vector2 circleCenter, float radius, const std::vector<Vector2>& poly);
 
     Vector2 getMinTranslationVector(const std::vector<Vector2>& polyA, const std::vector<Vector2>& polyB);
+
 };
 
 
