@@ -30,6 +30,8 @@ add_executable(Physics src/main.cpp
         src/Scythe.h
         src/Mace.cpp
         src/Mace.h
+        src/Staff.cpp
+        src/Staff.h
 )
 
 find_package(box2d REQUIRED)

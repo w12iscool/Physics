@@ -23,8 +23,8 @@ void GameEngine::startUp()
     ball2.initFont();
 
     // chgna the weapons fighting
-    m_weapons.push_back(&shield);
     m_weapons.push_back(&mace);
+    m_weapons.push_back(&staff);
 
     for (auto& w : m_weapons)
     {

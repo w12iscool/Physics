@@ -53,7 +53,7 @@ void Ball::renderCircle()
     // Health text rendering
     std::string temp = std::to_string(m_health);
     const char* healthText = temp.c_str();
-    float fontSize = 50.0f;
+    float fontSize = 40.0f;
     float spacing = 0.0f;
 
     // Only use x-dimension for centering

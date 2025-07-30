@@ -183,6 +183,7 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
         ball.takeDamage(m_damage);
         m_height += 30;
         m_radiusOffset += 15;
+        m_damage += 1;
         ball.setColor(RAYWHITE);
     }
 

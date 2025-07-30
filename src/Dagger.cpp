@@ -114,7 +114,8 @@ void Dagger::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ba
         StartTimer(&timer, lifeTime);
         StartTimer(&freezeTimer, freezeLifeTime);
         ball.takeDamage(m_damage);
-        m_normalOrbitSpeed += 5;
+        m_normalOrbitSpeed += 10;
+
         ball.setColor(RAYWHITE);
     }
 
