@@ -16,6 +16,7 @@
 #include "Scythe.h"
 #include "Mace.h"
 #include "Staff.h"
+#include "gui_layout_name.h"
 
 class Box;
 class Ball;
@@ -44,6 +45,10 @@ private:
     Mace mace;
     Staff staff;
     std::vector<Weapon*> m_weapons;
+    std::vector<Weapon*> m_selectedWeapons;
+    GuiLayoutNameState m_guiState;
+
+    bool m_gameOver{ true };
 public:
     void startUp();
     void update();

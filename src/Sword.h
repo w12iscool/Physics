@@ -20,14 +20,16 @@ class Ball;
 
 class Sword : public Item, public Weapon {
 private:
-    float m_width{ 50 };
-    float m_height{ 120 };
+    float m_width{ 40 };
+    float m_height{ 90 };
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
     float m_orbitSpeed{ 6.0f };
     float m_normalOrbitSpeed{ 6.0f };
     int m_damage{ 1 };
-    float m_radiusOffset{ 60 };
+    float m_radiusOffset{ 50 };
+
+    const int m_normalStateDamage = {m_damage};
 
     Rectangle m_swordRect;
     float m_drawAngle;
@@ -72,6 +74,8 @@ public:
     bool& getFrozen() override;
     bool& getCollDb() override;
     void rotate(Ball& target, float& orbitSpeed) override;
+    void setDirection(int direction) override;
+    void resetState() override;
 };
 
 

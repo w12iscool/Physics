@@ -36,6 +36,7 @@ private:
     int m_numOfArrows{ 1 };
     int m_addition{ 0 };
 
+    const int m_originalMaxNumOfArrows{ m_numOfArrows };
     struct m_Arrow
     {
         Vector2 pos;
@@ -85,6 +86,10 @@ public:
     bool& getFrozen() override;
     bool& getCollDb() override;
     void rotate(Ball& target, float& orbitSpeed) override;
+
+    void setDirection(int direction) override;
+    void resetState() override;
+
 };
 
 

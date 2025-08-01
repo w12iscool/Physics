@@ -29,8 +29,8 @@ private:
     Vector2 m_fireBallVelocity{};
     float m_fireBallSpeed{ 600.0f };
     float m_angle{ 0.0f };
-    float m_orbitSpeed{ 4.0f };
-    float m_normalOrbitSpeed{ 4.0f };
+    float m_orbitSpeed{ 7.0f };
+    float m_normalOrbitSpeed{ 7.0f };
     int m_damage{ 1 };
     float m_radiusOffset{ 40 };
     float m_staffTimerLifeTime{ 2.0f };
@@ -82,6 +82,10 @@ private:
     };
 
     std::vector<m_Explosion> m_explosions;
+
+    const float m_normalStateExplosionSpeed = {m_growthSpeed};
+    const float m_normalStateMaxRadius = {m_maxRadius};
+    const int m_normalStateDamage = {m_damage};
 public:
 
     Rectangle& getRect() override;
@@ -102,6 +106,8 @@ public:
     bool& getFrozen() override;
     bool& getCollDb() override;
     void rotate(Ball& target, float& orbitSpeed) override;
+    void setDirection(int direction) override;
+    void resetState() override;
 };
 
 

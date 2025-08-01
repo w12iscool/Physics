@@ -117,6 +117,8 @@ void Dagger::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ba
         m_normalOrbitSpeed += 10;
 
         ball.setColor(RAYWHITE);
+
+        std::cout << m_direction << "\n";
     }
 
     if (TimerDone(&timer))
@@ -153,4 +155,14 @@ bool& Dagger::getCollDb()
 void Dagger::rotate(Ball& target, float& orbitSpeed)
 {
     Item::rotate(target, m_daggerRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
+}
+
+void Dagger::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+void Dagger::resetState()
+{
+    m_normalOrbitSpeed = m_normalOrbitSpeed;
 }

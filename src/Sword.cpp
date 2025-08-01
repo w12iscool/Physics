@@ -156,3 +156,13 @@ void Sword::rotate(Ball& target, float& orbitSpeed)
 {
     Item::rotate(target, m_swordRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
 }
+
+void Sword::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+void Sword::resetState()
+{
+    m_damage = m_normalStateDamage;
+}

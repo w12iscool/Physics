@@ -23,8 +23,11 @@ void GameEngine::startUp()
     ball2.initFont();
 
     // chgna the weapons fighting
-    m_weapons.push_back(&mace);
     m_weapons.push_back(&staff);
+    m_weapons.push_back(&sword);
+
+    m_weapons[0]->setDirection(-1);
+    m_weapons[1]->setDirection(1);
 
     for (auto& w : m_weapons)
     {
@@ -103,39 +106,47 @@ void GameEngine::update()
 
 
 
-    if (ball.getHealth() > 0 && ball2.getHealth() > 0)
+    if (!m_gameOver)
     {
         m_weapons[0]->handleCollision(ball2, debounceTimerItem1, debounceLifeTimeItem1, ball, freezeTimer, freezeLifeTime, m_weapons[1]->getOrbitSpeed(), m_weapons[1]->getRect(), m_weapons[1]->getNormalOrbitSpeed(), m_weapons[1]->getFrozen(), m_gameFrozen, m_weapons[1]->getDirection(), m_weapons[1]->getCollDb(), m_weapons[1]->getAngle(), parryHappened);
         m_weapons[1]->handleCollision(ball, debounceTimerItem1, debounceLifeTimeItem1, ball2, freezeTimer, freezeLifeTime, m_weapons[0]->getOrbitSpeed(), m_weapons[0]->getRect(), m_weapons[0]->getNormalOrbitSpeed(), m_weapons[0]->getFrozen(), m_gameFrozen, m_weapons[0]->getDirection(), m_weapons[0]->getCollDb(), m_weapons[0]->getAngle(), parryHappened);
     }
+
+    if (ball.getHealth() <= 0 || ball2.getHealth() <= 0)
+    {
+        m_gameOver = true;
+    }
+
+    if (IsKeyPressed(KEY_A))
+        m_gameOver = true;
+    if (IsKeyPressed(KEY_D))
+        m_gameOver = false;
 }
 
 void GameEngine::render()
 {
     ClearBackground(RAYWHITE);
-    box.renderRect();
-    // testItem.render();
-    if (ball.getHealth() > 0)
+    if (!m_gameOver)
     {
+        box.renderRect();
+        // testItem.render();
         m_weapons[0]->render();
         ball.renderCircle();
-    }
-    else
-    {
-        m_weapons.erase(m_weapons.begin());
-    }
 
-    if (ball2.getHealth() > 0)
-    {
         m_weapons[1]->render();
         ball2.renderCircle();
     }
-    else
+
+    if (m_gameOver)
     {
-        m_weapons.erase(m_weapons.end());
+        if (GuiButton((Rectangle){ 50, 50, 100, 30 }, "Test button")) {
+            ball.setHealth(100);
+            ball2.setHealth(100);
+            m_weapons[0]->resetState();
+            m_weapons[1]->resetState();
+            m_gameOver = false;
+        }
     }
-
-
 }
 
 void GameEngine::shutDown()

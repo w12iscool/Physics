@@ -30,6 +30,9 @@ public:
     virtual float& getDirection() = 0;
     virtual bool& getFrozen() = 0;
     virtual bool& getCollDb() = 0;
+
+    virtual void setDirection(int direction) = 0;
+    virtual void resetState() = 0;
 };
 
 

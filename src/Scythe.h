@@ -48,6 +48,8 @@ private:
     Timer m_poisonTimer = { 0 };
     float m_poisonLifeTime{ 1.25f };
 
+    const int m_normalStatePoison = {m_normalStatePoison};
+
 public:
     Rectangle& getRect() override;
     float& getOrbitSpeed() override;
@@ -67,5 +69,7 @@ public:
     bool& getFrozen() override;
     bool& getCollDb() override;
     void rotate(Ball& target, float& orbitSpeed) override;
+    void setDirection(int direction) override;
+    void resetState() override;
 };
 

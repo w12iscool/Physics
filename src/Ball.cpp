@@ -218,3 +218,8 @@ void Ball::initFont()
 {
     (*m_font) = LoadFont("./resources/Anton-Regular.ttf");
 }
+
+void Ball::setHealth(int health)
+{
+    m_health = health;
+}

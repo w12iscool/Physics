@@ -13,14 +13,14 @@
 class Mace : public Item, public Weapon {
 private:
 
-    float m_width{ 60 };
-    float m_height{ 110 };
+    float m_width{ 45 };
+    float m_height{ 90 };
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
     float m_orbitSpeed{ 3.0f };
     float m_normalOrbitSpeed{ 3.0f };
     int m_damage{ 1 };
-    float m_radiusOffset{ 40 };
+    float m_radiusOffset{ 50 };
 
     Rectangle m_maceRect;
     float m_drawAngle;
@@ -51,6 +51,9 @@ private:
     float m_parryLifeTime{ 0.3f };
 
     bool m_parryBool = false;
+
+    const float m_normalStateOrbitSpeed{ m_normalOrbitSpeed };
+    const int m_normalStateDamage{ m_damage };
 public:
     Rectangle& getRect() override;
     float& getOrbitSpeed() override;
@@ -70,4 +73,7 @@ public:
     bool& getFrozen() override;
     bool& getCollDb() override;
     void rotate(Ball& target, float& orbitSpeed) override;
+    void setDirection(int direction) override;
+    void resetState() override;
+
 };

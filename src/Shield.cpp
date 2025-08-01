@@ -136,3 +136,13 @@ void Shield::rotate(Ball& target, float& orbitSpeed)
 {
     Item::rotate(target, m_shieldRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
 }
+
+void Shield::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+void Shield::resetState()
+{
+    m_width = m_normalStateWidth;
+}

@@ -97,6 +97,16 @@ void Spear::rotate(Ball& target, float& orbitSpeed)
     Item::rotate(target, m_itemRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
 }
 
+void Spear::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+void Spear::resetState()
+{
+    m_height = m_normalStateHeight;
+}
+
 void Spear::render()
 {
     Rectangle source = Rectangle(0, 0, (float)(*m_stickTexture).width, (float)(*m_stickTexture).height);
@@ -183,7 +193,7 @@ void Spear::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
         ball.takeDamage(m_damage);
         m_height += 30;
         m_radiusOffset += 15;
-        m_damage += 1;
+        m_damage += 0.5;
         ball.setColor(RAYWHITE);
     }
 

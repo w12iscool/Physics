@@ -43,6 +43,8 @@ private:
 
     float m_direction = -1;
     std::unique_ptr<Texture2D> m_shieldTexture = std::make_unique<Texture2D>();
+
+    const float m_normalStateWidth{ m_width };
 public:
 
     Rectangle& getRect() override;
@@ -62,7 +64,10 @@ public:
 
     bool& getFrozen() override;
     bool& getCollDb() override;
-    void rotate(Ball& target, float& orbitSpeed) override;};
+    void rotate(Ball& target, float& orbitSpeed) override;
+    void setDirection(int direction) override;
+    void resetState() override;
+};
 
 
 

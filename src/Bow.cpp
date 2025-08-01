@@ -229,3 +229,13 @@ void Bow::rotate(Ball& target, float& orbitSpeed)
 {
     Item::rotate(target, m_bowRect, m_orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
 }
+
+void Bow::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+void Bow::resetState()
+{
+    m_numOfArrows = m_originalMaxNumOfArrows;
+}

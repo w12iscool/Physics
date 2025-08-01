@@ -32,6 +32,8 @@ add_executable(Physics src/main.cpp
         src/Mace.h
         src/Staff.cpp
         src/Staff.h
+        src/gui_layout_name.h
+        src/raylib-nuklear.h
 )
 
 find_package(box2d REQUIRED)
@@ -44,5 +46,9 @@ find_package(raylib REQUIRED)
 target_link_libraries(Physics PRIVATE raylib)
 find_package(Stb REQUIRED)
 target_include_directories(Physics PRIVATE ${Stb_INCLUDE_DIR})
+find_path(RAYGUI_INCLUDE_DIRS "raygui.h")
+target_link_libraries(Physics PRIVATE raylib)
+find_package(unofficial-nuklear CONFIG REQUIRED)
+target_link_libraries(Physics PRIVATE nuklear)
 
 

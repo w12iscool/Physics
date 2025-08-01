@@ -64,6 +64,7 @@ public:
     void initDefaultColor(Color color);
     Color getDefaultColor();
     void initFont();
+    void setHealth(int health);
 
     std::unique_ptr<Font> m_font = std::make_unique<Font>();
 };

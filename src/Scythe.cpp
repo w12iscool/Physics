@@ -162,3 +162,13 @@ void Scythe::rotate(Ball& target, float& orbitSpeed)
 {
     Item::rotate(target, m_scytheRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
 }
+
+void Scythe::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+void Scythe::resetState()
+{
+    m_poisonAmt = m_normalStatePoison;
+}

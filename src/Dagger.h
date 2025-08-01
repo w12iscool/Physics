@@ -24,14 +24,15 @@ class Dagger : public Item, public Weapon
 {
 private:
 
-    float m_width{ 60 };
+    float m_width{ 30 };
     float m_height{ 65 };
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
-    float m_orbitSpeed{ 30.0f };
-    float m_normalOrbitSpeed{ 30.0f };
+    float m_orbitSpeed{ 40.0f };
+    float m_normalOrbitSpeed{ 40.0f };
+    const float m_maxNormalOrbitSpeed{ m_normalOrbitSpeed };
     int m_damage{ 1 };
-    float m_radiusOffset{ 30 };
+    float m_radiusOffset{ 40 };
 
     Rectangle m_daggerRect;
     float m_drawAngle;
@@ -71,6 +72,9 @@ public:
     bool& getFrozen() override;
     bool& getCollDb() override;
     void rotate(Ball& target, float& orbitSpeed) override;
+    void setDirection(int direction) override;
+    void resetState() override;
+
 };
 
 

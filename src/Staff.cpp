@@ -70,6 +70,11 @@ void Staff::render()
         if (!e.active) continue;
 
         DrawCircleV(e.pos, e.radius, Fade(ORANGE, 0.6f));
+        int lineWeight{ 5 };
+        for (int i{ -1 }; i <= lineWeight; ++i)
+        {
+            DrawCircleLines(e.pos.x, e.pos.y, e.radius + i, Fade(RED, 0.6f));
+        }
     }
 }
 
@@ -232,8 +237,11 @@ void Staff::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
             m_Explosion e;
             e.pos = fi.pos;
             e.radius = 0.0f;
-            m_growthSpeed = 200.0f;
             e.active = true;
+
+            m_damage += 1;
+            m_maxRadius += 30.0f;
+            m_growthSpeed += 150.0f;
             m_explosions.push_back(e);
 
             fi.active = false;
@@ -259,7 +267,7 @@ void Staff::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
 
             m_damage += 1;
             m_maxRadius += 30.0f;
-            m_growthSpeed += 30.0f;
+            m_growthSpeed += 150.0f;
             e.active = false;
         }
     }
@@ -283,4 +291,16 @@ bool& Staff::getCollDb()
 void Staff::rotate(Ball& target, float& orbitSpeed)
 {
     Item::rotate(target, m_staffRect, orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
+}
+
+void Staff::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+void Staff::resetState()
+{
+    m_maxRadius = m_normalStateMaxRadius;
+    m_growthSpeed = m_normalStateExplosionSpeed;
+    m_damage = m_normalStateDamage;
 }

@@ -161,3 +161,14 @@ void Mace::rotate(Ball& target, float& orbitSpeed)
 {
     Item::rotate(target, m_maceRect, m_orbitSpeed, m_angle, m_drawAngle, m_width, m_height, m_radiusOffset, m_direction, m_isFrozen);
 }
+
+void Mace::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+void Mace::resetState()
+{
+    m_normalOrbitSpeed = m_normalStateOrbitSpeed;
+    m_damage = m_normalStateDamage;
+}
