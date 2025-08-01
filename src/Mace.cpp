@@ -172,3 +172,8 @@ void Mace::resetState()
     m_normalOrbitSpeed = m_normalStateOrbitSpeed;
     m_damage = m_normalStateDamage;
 }
+
+std::string Mace::getName()
+{
+    return m_name;
+}

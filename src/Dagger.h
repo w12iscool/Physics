@@ -53,6 +53,7 @@ private:
     float m_direction = -1;
 
     std::unique_ptr<Texture2D> m_daggerTexture = std::make_unique<Texture2D>();
+    std::string m_name{ "Dagger" };
 public:
     Rectangle& getRect() override;
     float& getOrbitSpeed() override;
@@ -74,6 +75,7 @@ public:
     void rotate(Ball& target, float& orbitSpeed) override;
     void setDirection(int direction) override;
     void resetState() override;
+    std::string getName() override;
 
 };
 

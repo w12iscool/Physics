@@ -223,3 +223,18 @@ void Ball::setHealth(int health)
 {
     m_health = health;
 }
+
+void Ball::setDefaultColorR(unsigned char r)
+{
+    m_defaultColor.r = r;
+}
+
+void Ball::setDefaultColorG(unsigned char g)
+{
+    m_defaultColor.g = g;
+}
+
+void Ball::setDefaultColorB(unsigned char b)
+{
+    m_defaultColor.b = b;
+}

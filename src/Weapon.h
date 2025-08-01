@@ -7,6 +7,7 @@
 #include "Ball.h"
 #include "RaylibTimer.h"
 #include <raylib.h>
+#include <string>
 
 class Ball;
 class Weapon {
@@ -33,6 +34,7 @@ public:
 
     virtual void setDirection(int direction) = 0;
     virtual void resetState() = 0;
+    virtual std::string getName() = 0;
 };
 
 

@@ -66,6 +66,8 @@ private:
     float m_direction = -1;
     std::unique_ptr<Texture2D> m_bowTexture = std::make_unique<Texture2D>();
     std::unique_ptr<Texture2D> m_arrowTexture = std::make_unique<Texture2D>();
+
+    std::string m_name{ "Bow" };
 public:
 
     Rectangle& getRect() override;
@@ -89,7 +91,7 @@ public:
 
     void setDirection(int direction) override;
     void resetState() override;
-
+    std::string getName() override;
 };
 
 

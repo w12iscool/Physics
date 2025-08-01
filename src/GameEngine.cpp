@@ -8,6 +8,11 @@
 
 void GameEngine::startUp()
 {
+    for (int i{ 0 }; i < m_weaponList.size(); ++i)
+    {
+        m_weaponListString += m_weaponList[i]->getName() + ';';
+    }
+    std::cout << m_weaponListString;
     InitAudioDevice();
     b2WorldDef worldDef = b2DefaultWorldDef();
     worldDef.gravity = b2Vec2(0.0f, 70.0f);
@@ -23,19 +28,23 @@ void GameEngine::startUp()
     ball2.initFont();
 
     // chgna the weapons fighting
-    m_weapons.push_back(&staff);
-    m_weapons.push_back(&sword);
+    m_weapons.push_back(m_weaponList[m_weapon1]);
+    m_weapons.push_back(m_weaponList[m_weapon2]);
 
     m_weapons[0]->setDirection(-1);
     m_weapons[1]->setDirection(1);
+
 
     for (auto& w : m_weapons)
     {
         w->initTextures();
     }
 
+
     ball.initDefaultColor(RED);
     ball2.initDefaultColor(BLUE);
+
+    m_guiBallEditorState = InitGuiBallEditor();
 }
 
 
@@ -78,6 +87,8 @@ void GameEngine::update()
 
     float daggerOrbitSpeed = dagger.getOrbitSpeed();
     float daggerNormalOrbitSpeed = dagger.getNormalOrbitSpeed();
+
+
 
     if (m_gameFrozen)
     {
@@ -126,10 +137,19 @@ void GameEngine::update()
 void GameEngine::render()
 {
     ClearBackground(RAYWHITE);
+
+    ball.setDefaultColorR(m_guiBallEditorState.ColorPicker005Value.r);
+    ball.setDefaultColorG(m_guiBallEditorState.ColorPicker005Value.g);
+    ball.setDefaultColorB(m_guiBallEditorState.ColorPicker005Value.b);
+
+    ball2.setDefaultColorR(m_guiBallEditorState.ColorPicker006Value.r);
+    ball2.setDefaultColorG(m_guiBallEditorState.ColorPicker006Value.g);
+    ball2.setDefaultColorB(m_guiBallEditorState.ColorPicker006Value.b);
     if (!m_gameOver)
     {
         box.renderRect();
         // testItem.render();
+
         m_weapons[0]->render();
         ball.renderCircle();
 
@@ -139,13 +159,53 @@ void GameEngine::render()
 
     if (m_gameOver)
     {
-        if (GuiButton((Rectangle){ 50, 50, 100, 30 }, "Test button")) {
-            ball.setHealth(100);
-            ball2.setHealth(100);
+        int buttonWidth = 100;
+        int buttonHeight = 30;
+
+        int screenWidth = GetScreenWidth();
+        int screenHeight = GetScreenHeight();
+
+        Rectangle buttonRect = {
+            (screenWidth - buttonWidth) / 2.0f,
+            (screenHeight - buttonHeight) / 2.0f,
+            (float)buttonWidth,
+            (float)buttonHeight
+        };
+
+        // if (GuiButton(buttonRect, "Start Button")) {
+        //     ball.setHealth(100);
+        //     ball2.setHealth(100);
+        //     m_weapons[0]->resetState();
+        //     m_weapons[1]->resetState();
+        //     m_gameOver = false;
+        // }
+
+        GuiBallEditor(&m_guiBallEditorState, m_weaponListString.c_str());
+        if (!m_guiBallEditorState.WindowBox000Active)
+        {
+            ball.setHealth(m_guiBallEditorState.Spinner003Value);
+            ball2.setHealth(m_guiBallEditorState.Spinner004Value);
+
             m_weapons[0]->resetState();
             m_weapons[1]->resetState();
+
+            m_weapons.clear();
+
+            m_weapon1 = m_guiBallEditorState.ComboBox010Active;
+            m_weapon2 = m_guiBallEditorState.ComboBox012Active;
+
+            m_weapons.push_back(m_weaponList[m_weapon1]);
+            m_weapons.push_back(m_weaponList[m_weapon2]);
+
+            for (auto& w : m_weapons)
+            {
+                w->initTextures();
+            }
+
             m_gameOver = false;
+            m_guiBallEditorState.WindowBox000Active = true;
         }
+
     }
 }
 
@@ -153,3 +213,4 @@ void GameEngine::shutDown()
 {
     b2DestroyWorld(m_worldId);
 }
+

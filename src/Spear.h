@@ -53,6 +53,7 @@ private:
     std::unique_ptr<Texture2D> m_spearHeadTexture = std::make_unique<Texture2D>();
 
     const float m_normalStateHeight = {m_height};
+    std::string m_name{"Spear"};
 
 public:
     Rectangle& getRect() override;
@@ -80,5 +81,6 @@ public:
     void rotate(Ball& target, float& orbitSpeed) override;
     void setDirection(int direction) override;
     void resetState() override;
+    std::string getName() override;
 };
 

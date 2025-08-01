@@ -32,8 +32,8 @@ add_executable(Physics src/main.cpp
         src/Mace.h
         src/Staff.cpp
         src/Staff.h
-        src/gui_layout_name.h
         src/raylib-nuklear.h
+        src/gui_ballEditor.h
 )
 
 find_package(box2d REQUIRED)

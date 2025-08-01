@@ -45,6 +45,7 @@ private:
     std::unique_ptr<Texture2D> m_shieldTexture = std::make_unique<Texture2D>();
 
     const float m_normalStateWidth{ m_width };
+    std::string m_name{ "Shield" };
 public:
 
     Rectangle& getRect() override;
@@ -67,6 +68,7 @@ public:
     void rotate(Ball& target, float& orbitSpeed) override;
     void setDirection(int direction) override;
     void resetState() override;
+    std::string getName() override;
 };
 
 

@@ -86,6 +86,7 @@ private:
     const float m_normalStateExplosionSpeed = {m_growthSpeed};
     const float m_normalStateMaxRadius = {m_maxRadius};
     const int m_normalStateDamage = {m_damage};
+    std::string m_name{ "Staff" };
 public:
 
     Rectangle& getRect() override;
@@ -108,6 +109,7 @@ public:
     void rotate(Ball& target, float& orbitSpeed) override;
     void setDirection(int direction) override;
     void resetState() override;
+    std::string getName() override;
 };
 
 

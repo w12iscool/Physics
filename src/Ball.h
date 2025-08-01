@@ -66,6 +66,10 @@ public:
     void initFont();
     void setHealth(int health);
 
+    void setDefaultColorR(unsigned char r);
+    void setDefaultColorG(unsigned char g);
+    void setDefaultColorB(unsigned char b);
+
     std::unique_ptr<Font> m_font = std::make_unique<Font>();
 };
 

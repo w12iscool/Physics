@@ -146,3 +146,8 @@ void Shield::resetState()
 {
     m_width = m_normalStateWidth;
 }
+
+std::string Shield::getName()
+{
+    return m_name;
+}

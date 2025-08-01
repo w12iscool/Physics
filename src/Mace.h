@@ -54,6 +54,7 @@ private:
 
     const float m_normalStateOrbitSpeed{ m_normalOrbitSpeed };
     const int m_normalStateDamage{ m_damage };
+    std::string m_name{ "Mace" };
 public:
     Rectangle& getRect() override;
     float& getOrbitSpeed() override;
@@ -75,5 +76,5 @@ public:
     void rotate(Ball& target, float& orbitSpeed) override;
     void setDirection(int direction) override;
     void resetState() override;
-
+    std::string getName() override;
 };

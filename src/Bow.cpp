@@ -239,3 +239,8 @@ void Bow::resetState()
 {
     m_numOfArrows = m_originalMaxNumOfArrows;
 }
+
+std::string Bow::getName()
+{
+    return m_name;
+}

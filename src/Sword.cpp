@@ -166,3 +166,8 @@ void Sword::resetState()
 {
     m_damage = m_normalStateDamage;
 }
+
+std::string Sword::getName()
+{
+    return m_name;
+}

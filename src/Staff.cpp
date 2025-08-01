@@ -304,3 +304,8 @@ void Staff::resetState()
     m_growthSpeed = m_normalStateExplosionSpeed;
     m_damage = m_normalStateDamage;
 }
+
+std::string Staff::getName()
+{
+    return m_name;
+}

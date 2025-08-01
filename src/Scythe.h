@@ -49,6 +49,7 @@ private:
     float m_poisonLifeTime{ 1.25f };
 
     const int m_normalStatePoison = {m_normalStatePoison};
+    std::string m_name{ "Scythe" };
 
 public:
     Rectangle& getRect() override;
@@ -71,5 +72,6 @@ public:
     void rotate(Ball& target, float& orbitSpeed) override;
     void setDirection(int direction) override;
     void resetState() override;
+    std::string getName() override;
 };
 

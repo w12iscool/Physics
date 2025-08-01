@@ -54,6 +54,7 @@ private:
     float m_parryLifeTime{ 0.3 };
 
     bool m_parryBool = false;
+    std::string m_name{"Sword"};
 
 public:
     Rectangle& getRect() override;
@@ -76,6 +77,7 @@ public:
     void rotate(Ball& target, float& orbitSpeed) override;
     void setDirection(int direction) override;
     void resetState() override;
+    std::string getName() override;
 };
 
 

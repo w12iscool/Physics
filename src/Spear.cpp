@@ -107,6 +107,11 @@ void Spear::resetState()
     m_height = m_normalStateHeight;
 }
 
+std::string Spear::getName()
+{
+    return m_name;
+}
+
 void Spear::render()
 {
     Rectangle source = Rectangle(0, 0, (float)(*m_stickTexture).width, (float)(*m_stickTexture).height);

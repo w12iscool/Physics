@@ -172,3 +172,8 @@ void Scythe::resetState()
 {
     m_poisonAmt = m_normalStatePoison;
 }
+
+std::string Scythe::getName()
+{
+    return m_name;
+}

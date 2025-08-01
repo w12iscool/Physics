@@ -16,8 +16,7 @@
 #include "Scythe.h"
 #include "Mace.h"
 #include "Staff.h"
-#include "gui_layout_name.h"
-
+#include "gui_ballEditor.h"
 class Box;
 class Ball;
 class Item;
@@ -45,10 +44,13 @@ private:
     Mace mace;
     Staff staff;
     std::vector<Weapon*> m_weapons;
-    std::vector<Weapon*> m_selectedWeapons;
-    GuiLayoutNameState m_guiState;
-
+    std::vector<Weapon*> m_weaponList = {&spear, &sword, &dagger, &shield, &bowAndArrow, &scythe, &mace, &staff};
+    std::string m_weaponListString;
+    GuiBallEditorState m_guiBallEditorState;
     bool m_gameOver{ true };
+
+    size_t m_weapon1{ 0 };
+    size_t m_weapon2{ 1 };
 public:
     void startUp();
     void update();

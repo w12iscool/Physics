@@ -166,3 +166,8 @@ void Dagger::resetState()
 {
     m_normalOrbitSpeed = m_normalOrbitSpeed;
 }
+
+std::string Dagger::getName()
+{
+    return m_name;
+}
