@@ -8,6 +8,10 @@
 #include "Item.h"
 #include "RaylibTimer.h"
 
+class Ball;
+class Item;
+class Weapon;
+
 class Wrench : public Item, public Weapon{
 private:
     float m_width{ 40 };
@@ -47,7 +51,38 @@ private:
     bool m_parryBool = false;
     std::string m_name{"Wrench"};
 private:
-    b2BodyId m_ballId = { 0 };
+    struct turret
+    {
+        Rectangle m_turrectGun;
+        Vector2 m_turretPos;
+        Color m_turretColor = {SKYBLUE};
+        b2BodyId m_bodyId = { 0 };
+        float m_direction{ 1 };
+        float m_radius{ 15 };
+        float m_angle{ 0.0f };
+        float m_drawAngle{ 0.0f };
+        float m_width{ 30 };
+        float m_height{ 50 };
+        Timer m_shootTimer{ 0 };
+    };
+
+    struct m_pellet
+    {
+        Vector2 pos;
+        Vector2 velocity;
+        bool active = true;
+        float angleDeg;
+    };
+
+    bool m_turretsInitialized{ false };
+
+    float m_turretRadiusOffset{ -18.0f };
+    float m_turretShootLifeTime{ 1.0f };
+    float m_pelletSpeed = 600.0f;
+    float m_pelletRadius = 8.0f;
+
+    std::vector<turret> m_turretsVector;
+    std::vector<m_pellet> m_pelletsVector;
 public:
     Rectangle& getRect() override;
     float& getOrbitSpeed() override;

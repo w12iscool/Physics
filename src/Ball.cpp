@@ -36,7 +36,7 @@ void Ball::initBallBox2d(b2WorldId& worldId)
 }
 
 void Ball::renderCircle()
-{
+    {
     float pixelsToMeters{30};
     Vector2 pos = {
         b2Body_GetPosition(m_ballId).x * pixelsToMeters,
