@@ -1,5 +1,7 @@
 #include "Scythe.h"
 
+#include <numbers>
+
 Rectangle& Scythe::getRect()
 {
     return m_scytheRect;

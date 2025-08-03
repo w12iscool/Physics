@@ -1,37 +1,27 @@
 //
-// Created by Harshad on 7/23/2025.
+// Created by Harshad on 8/2/2025.
 //
 #pragma once
 
-#include <raylib.h>
-#include "Item.h"
 #include "Ball.h"
-#include <iostream>
-#include "RaylibTimer.h"
-#include "box2d/box2d.h"
-
-#include <memory>
-
 #include "Weapon.h"
+#include "Item.h"
+#include "RaylibTimer.h"
 
-class Item;
-class Weapon;
-class Ball;
-
-class Sword : public Item, public Weapon {
+class Wrench : public Item, public Weapon{
 private:
     float m_width{ 40 };
     float m_height{ 90 };
     Vector2 m_pos{ 0, 0 };
     float m_angle{ 0.0f };
-    float m_orbitSpeed{ 6.0f };
-    float m_normalOrbitSpeed{ 6.0f };
+    float m_orbitSpeed{ 10.0f };
+    float m_normalOrbitSpeed{ 10.0f };
     int m_damage{ 1 };
-    float m_radiusOffset{ 50 };
+    float m_radiusOffset{ 40 };
+    int m_numOfTurrets{ 0 };
+    const int m_normalStateTurrets = {m_numOfTurrets};
 
-    const int m_normalStateDamage = {m_damage};
-
-    Rectangle m_swordRect;
+    Rectangle m_wrenchRect;
     float m_drawAngle;
 
     struct Projection
@@ -48,14 +38,16 @@ private:
     bool m_collisionDb{ false };
 
     float m_direction = -1;
-    std::unique_ptr<Texture2D> m_swordTexture = std::make_unique<Texture2D>();
+    float m_turretDirection = -1;
+    std::unique_ptr<Texture2D> m_wrenchTexture = std::make_unique<Texture2D>();
 
     Timer m_parryTimer{ 0 };
     float m_parryLifeTime{ 0.3 };
 
     bool m_parryBool = false;
-    std::string m_name{"Sword"};
-
+    std::string m_name{"Wrench"};
+private:
+    b2BodyId m_ballId = { 0 };
 public:
     Rectangle& getRect() override;
     float& getOrbitSpeed() override;
@@ -78,4 +70,10 @@ public:
     void setDirection(int direction) override;
     void resetState() override;
     std::string getName() override;
+
+    void wrenchSpecificFunction();
 };
+
+
+
+

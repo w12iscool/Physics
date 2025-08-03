@@ -4,6 +4,8 @@
 
 #include "Bow.h"
 
+#include <numbers>
+
 Rectangle& Bow::getRect()
 {
     return m_bowRect;

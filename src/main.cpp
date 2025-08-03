@@ -13,7 +13,6 @@ int main()
     InitWindow(800, 600, "Physics");
     SetTargetFPS(60);
 
-
     game.startUp();
     while (!WindowShouldClose())
     {

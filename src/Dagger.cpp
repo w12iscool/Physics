@@ -4,6 +4,8 @@
 
 #include "Dagger.h"
 
+#include <numbers>
+
 Rectangle& Dagger::getRect()
 {
     return m_daggerRect;
@@ -118,7 +120,7 @@ void Dagger::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& ba
 
         ball.setColor(RAYWHITE);
 
-        std::cout << m_direction << "\n";
+        // std::cout << m_direction << "\n";
     }
 
     if (TimerDone(&timer))

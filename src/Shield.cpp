@@ -4,6 +4,8 @@
 
 #include "Shield.h"
 
+#include <numbers>
+
 Rectangle& Shield::getRect()
 {
     return m_shieldRect;

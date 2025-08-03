@@ -13,7 +13,6 @@ void GameEngine::startUp()
         m_weaponListString += m_weaponList[i]->getName() + ';';
     }
     std::cout << m_weaponListString;
-    InitAudioDevice();
     b2WorldDef worldDef = b2DefaultWorldDef();
     worldDef.gravity = b2Vec2(0.0f, 70.0f);
     b2SetLengthUnitsPerMeter(30.0f);
@@ -128,11 +127,21 @@ void GameEngine::update()
         m_gameOver = true;
     }
 
+    if (m_weapon1 == m_weapon2)
+        m_gameOver = true;
+
     if (IsKeyPressed(KEY_A))
         m_gameOver = true;
     if (IsKeyPressed(KEY_D))
         m_gameOver = false;
+
+    if (m_weapon1 == gameWeaponOptions::wrench || m_weapon2 == gameWeaponOptions::wrench)
+    {
+        wrench.wrenchSpecificFunction();
+    }
 }
+
+
 
 void GameEngine::render()
 {
@@ -159,8 +168,8 @@ void GameEngine::render()
 
     if (m_gameOver)
     {
-        int buttonWidth = 100;
-        int buttonHeight = 30;
+        int buttonWidth = 240;
+        int buttonHeight = 120;
 
         int screenWidth = GetScreenWidth();
         int screenHeight = GetScreenHeight();
@@ -202,8 +211,20 @@ void GameEngine::render()
                 w->initTextures();
             }
 
+            if (m_weapon1 == m_weapon2)
+            {
+                m_showMessageBox = true;
+            }
+
             m_gameOver = false;
             m_guiBallEditorState.WindowBox000Active = true;
+        }
+
+        if (m_showMessageBox)
+        {
+            int result = GuiMessageBox(buttonRect, "#191#Error!", "Can't choose the same weapon twice!", "Okay");
+
+            if (result >= 0) m_showMessageBox = false;
         }
 
     }

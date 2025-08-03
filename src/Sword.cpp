@@ -4,6 +4,8 @@
 
 #include "Sword.h"
 
+#include <numbers>
+
 Rectangle& Sword::getRect()
 {
     return m_swordRect;

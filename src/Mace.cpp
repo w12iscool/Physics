@@ -4,6 +4,7 @@
 
 #include "Mace.h"
 
+#include <numbers>
 Rectangle& Mace::getRect()
 {
     return m_maceRect;

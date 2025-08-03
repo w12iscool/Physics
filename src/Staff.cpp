@@ -92,7 +92,7 @@ void Staff::handleCollision(Ball& ball, Timer& timer, float& lifeTime, Ball& bal
     UpdateTimer(&timer);
     UpdateTimer(&m_shootTimer);
 
-    float physicalAngleRad = m_angle + (std::numbers::pi / 2.0f);
+    float physicalAngleRad = m_angle + (PI / 2.0f);
     Vector2 itemCenter = { m_staffRect.x, m_staffRect.y };
     Vector2 arrowCenter = { m_fireBallRect.x, m_fireBallRect.y };
     Vector2 secondItemCenter = { otherRect.x, otherRect.y };

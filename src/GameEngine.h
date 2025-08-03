@@ -17,6 +17,7 @@
 #include "Mace.h"
 #include "Staff.h"
 #include "gui_ballEditor.h"
+#include "Wrench.h"
 class Box;
 class Ball;
 class Item;
@@ -26,6 +27,23 @@ class Bow;
 class Scythe;
 class Mace;
 class Staff;
+class Wrench;
+
+namespace gameWeaponOptions
+{
+    enum weaponType
+    {
+        spear,
+        sword,
+        Dagger,
+        Shield,
+        bowAndArrow,
+        scythe,
+        mace,
+        staff,
+        wrench,
+    };
+}
 class GameEngine {
 private:
     b2WorldId m_worldId = {0};
@@ -43,14 +61,17 @@ private:
     Scythe scythe;
     Mace mace;
     Staff staff;
+    Wrench wrench;
     std::vector<Weapon*> m_weapons;
-    std::vector<Weapon*> m_weaponList = {&spear, &sword, &dagger, &shield, &bowAndArrow, &scythe, &mace, &staff};
+    std::vector<Weapon*> m_weaponList = {&spear, &sword, &dagger, &shield, &bowAndArrow, &scythe, &mace, &staff, &wrench};
     std::string m_weaponListString;
     GuiBallEditorState m_guiBallEditorState;
     bool m_gameOver{ true };
 
     size_t m_weapon1{ 0 };
     size_t m_weapon2{ 1 };
+
+    bool m_showMessageBox{ false };
 public:
     void startUp();
     void update();
