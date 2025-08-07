@@ -38,6 +38,8 @@ add_executable(Physics src/main.cpp
         src/gui_ballEditor.h
         src/Wrench.cpp
         src/Wrench.h
+        src/Shuriken.cpp
+        src/Shuriken.h
 )
 
 #find_package(box2d REQUIRED)

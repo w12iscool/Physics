@@ -19,7 +19,7 @@ class Weapon;
 class Ball;
 class Spear : public Item, public Weapon {
 private:
-    float m_width{ 25 };
+    float m_width{ 35 };
     float m_height{ 75 };
     float m_headWidth{ 20 };
     Vector2 m_pos{ 0, 0 };
@@ -53,6 +53,7 @@ private:
     std::unique_ptr<Texture2D> m_spearHeadTexture = std::make_unique<Texture2D>();
 
     const float m_normalStateHeight = {m_height};
+    const float m_normalStateRadiusOffset = {m_radiusOffset};
     std::string m_name{"Spear"};
 
 public:

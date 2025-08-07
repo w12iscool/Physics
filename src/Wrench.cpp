@@ -6,6 +6,8 @@
 
 #include "../third_party/box2d/src/body.h"
 
+#include <numbers>
+
 Rectangle& Wrench::getRect()
 {
     return m_wrenchRect;
